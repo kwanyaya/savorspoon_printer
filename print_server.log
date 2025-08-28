@@ -1,0 +1,614 @@
+2025-08-26 18:56:15,280 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.124.182:5000
+2025-08-26 18:56:15,280 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-26 18:56:15,282 - INFO -  * Restarting with stat
+2025-08-26 18:56:16,479 - WARNING -  * Debugger is active!
+2025-08-26 18:56:16,482 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 19:01:19,413 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\test_chinese.py', reloading
+2025-08-26 19:01:19,597 - INFO -  * Restarting with stat
+2025-08-26 19:01:21,183 - WARNING -  * Debugger is active!
+2025-08-26 19:01:21,191 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 19:01:26,989 - INFO - 127.0.0.1 - - [26/Aug/2025 19:01:26] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 19:01:27,253 - ERROR - Print error: 'cp950' codec can't encode character '\U0001f35c' in position 0: illegal multibyte sequence
+2025-08-26 19:01:27,254 - INFO - 127.0.0.1 - - [26/Aug/2025 19:01:27] "[35m[1mPOST /print HTTP/1.1[0m" 500 -
+2025-08-26 19:01:39,431 - INFO - 127.0.0.1 - - [26/Aug/2025 19:01:39] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 19:01:40,440 - INFO - Print job 'Web Interface Test Print' sent to printer 'Star TSP100 Cutter (TSP143)'
+2025-08-26 19:01:40,443 - INFO - 127.0.0.1 - - [26/Aug/2025 19:01:40] "POST /print HTTP/1.1" 200 -
+2025-08-26 19:01:51,416 - INFO - 127.0.0.1 - - [26/Aug/2025 19:01:51] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 19:02:05,550 - INFO - 127.0.0.1 - - [26/Aug/2025 19:02:05] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 19:02:05,976 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent to printer 'Star TSP100 Cutter (TSP143)'
+2025-08-26 19:02:05,977 - INFO - 127.0.0.1 - - [26/Aug/2025 19:02:05] "POST /print HTTP/1.1" 200 -
+2025-08-26 19:02:25,257 - INFO - 127.0.0.1 - - [26/Aug/2025 19:02:25] "OPTIONS /test-print HTTP/1.1" 200 -
+2025-08-26 19:02:25,620 - INFO - Print job 'Test Print' sent to printer 'Star TSP100 Cutter (TSP143)'
+2025-08-26 19:02:25,621 - INFO - 127.0.0.1 - - [26/Aug/2025 19:02:25] "POST /test-print HTTP/1.1" 200 -
+2025-08-26 19:03:47,789 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-26 19:03:47,892 - INFO -  * Restarting with stat
+2025-08-26 19:03:48,997 - WARNING -  * Debugger is active!
+2025-08-26 19:03:49,000 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 19:04:32,244 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.124.182:5000
+2025-08-26 19:04:32,245 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-26 19:04:32,247 - INFO -  * Restarting with stat
+2025-08-26 19:04:32,604 - WARNING -  * Debugger is active!
+2025-08-26 19:04:32,606 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 19:04:44,274 - INFO - 127.0.0.1 - - [26/Aug/2025 19:04:44] "OPTIONS /printers HTTP/1.1" 200 -
+2025-08-26 19:04:44,539 - INFO - 127.0.0.1 - - [26/Aug/2025 19:04:44] "GET /printers HTTP/1.1" 200 -
+2025-08-26 19:04:49,352 - INFO - 127.0.0.1 - - [26/Aug/2025 19:04:49] "OPTIONS /status HTTP/1.1" 200 -
+2025-08-26 19:04:49,598 - INFO - 127.0.0.1 - - [26/Aug/2025 19:04:49] "GET /status HTTP/1.1" 200 -
+2025-08-26 19:05:47,840 - INFO - 127.0.0.1 - - [26/Aug/2025 19:05:47] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 19:05:48,168 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent directly to printer 'Star TSP100 Cutter (TSP143)'
+2025-08-26 19:05:48,169 - INFO - 127.0.0.1 - - [26/Aug/2025 19:05:48] "POST /print HTTP/1.1" 200 -
+2025-08-26 19:06:22,518 - INFO - 127.0.0.1 - - [26/Aug/2025 19:06:22] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 19:06:22,814 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent directly to printer 'Star TSP100 Cutter (TSP143)'
+2025-08-26 19:06:22,815 - INFO - 127.0.0.1 - - [26/Aug/2025 19:06:22] "POST /print HTTP/1.1" 200 -
+2025-08-26 19:06:50,877 - INFO - 127.0.0.1 - - [26/Aug/2025 19:06:50] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 19:06:51,172 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent directly to printer 'Star TSP100 Cutter (TSP143)'
+2025-08-26 19:06:51,173 - INFO - 127.0.0.1 - - [26/Aug/2025 19:06:51] "POST /print HTTP/1.1" 200 -
+2025-08-26 19:07:04,365 - INFO - 127.0.0.1 - - [26/Aug/2025 19:07:04] "OPTIONS /printers HTTP/1.1" 200 -
+2025-08-26 19:07:04,628 - INFO - 127.0.0.1 - - [26/Aug/2025 19:07:04] "GET /printers HTTP/1.1" 200 -
+2025-08-26 19:07:07,979 - INFO - 127.0.0.1 - - [26/Aug/2025 19:07:07] "GET /printers HTTP/1.1" 200 -
+2025-08-26 19:08:27,918 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-26 19:08:28,210 - INFO -  * Restarting with stat
+2025-08-26 19:08:28,344 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-26 19:08:28,623 - INFO -  * Restarting with stat
+2025-08-26 19:08:30,347 - WARNING -  * Debugger is active!
+2025-08-26 19:08:30,353 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 19:08:30,406 - WARNING -  * Debugger is active!
+2025-08-26 19:08:30,410 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 19:09:02,482 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\test_star_tsp100.py', reloading
+2025-08-26 19:09:02,536 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\test_star_tsp100.py', reloading
+2025-08-26 19:09:02,541 - INFO -  * Restarting with stat
+2025-08-26 19:09:02,641 - INFO -  * Restarting with stat
+2025-08-26 19:09:03,316 - WARNING -  * Debugger is active!
+2025-08-26 19:09:03,319 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 19:09:03,403 - WARNING -  * Debugger is active!
+2025-08-26 19:09:03,405 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 19:13:11,390 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.124.182:5000
+2025-08-26 19:13:11,390 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-26 19:13:11,392 - INFO -  * Restarting with stat
+2025-08-26 19:13:11,772 - WARNING -  * Debugger is active!
+2025-08-26 19:13:11,773 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 19:14:39,615 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\test_chinese_fixed.py', reloading
+2025-08-26 19:14:39,722 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\test_chinese_fixed.py', reloading
+2025-08-26 19:14:39,750 - INFO -  * Restarting with stat
+2025-08-26 19:14:39,886 - INFO -  * Restarting with stat
+2025-08-26 19:14:40,188 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\test_chinese_fixed.py', reloading
+2025-08-26 19:14:40,383 - INFO -  * Restarting with stat
+2025-08-26 19:14:41,016 - WARNING -  * Debugger is active!
+2025-08-26 19:14:41,019 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 19:14:41,022 - WARNING -  * Debugger is active!
+2025-08-26 19:14:41,026 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 19:14:41,622 - WARNING -  * Debugger is active!
+2025-08-26 19:14:41,629 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 19:14:46,441 - INFO - 127.0.0.1 - - [26/Aug/2025 19:14:46] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 19:14:46,849 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent to Star TSP100 with Chinese support
+2025-08-26 19:14:46,851 - INFO - 127.0.0.1 - - [26/Aug/2025 19:14:46] "POST /print HTTP/1.1" 200 -
+2025-08-26 19:16:32,027 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\diagnose_driver.py', reloading
+2025-08-26 19:16:32,152 - INFO -  * Restarting with stat
+2025-08-26 19:16:32,873 - WARNING -  * Debugger is active!
+2025-08-26 19:16:32,877 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 19:36:31,435 - INFO - 127.0.0.1 - - [26/Aug/2025 19:36:31] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 19:36:31,584 - WARNING - Standard printing failed: (1801, 'OpenPrinter', '¦Lªí¾÷¦WºÙµL®Ä¡C'), trying file method
+2025-08-26 19:36:34,271 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent via file method to 'OneNote (Desktop)'
+2025-08-26 19:36:34,287 - INFO - 127.0.0.1 - - [26/Aug/2025 19:36:34] "POST /print HTTP/1.1" 200 -
+2025-08-26 19:39:12,892 - INFO - 127.0.0.1 - - [26/Aug/2025 19:39:12] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 19:39:13,320 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent to standard printer 'NPIAA00D7 (HP Color LaserJet MFP M283fdw)'
+2025-08-26 19:39:13,378 - INFO - 127.0.0.1 - - [26/Aug/2025 19:39:13] "POST /print HTTP/1.1" 200 -
+2025-08-26 19:39:52,295 - INFO - 127.0.0.1 - - [26/Aug/2025 19:39:52] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 19:39:52,985 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent to standard printer 'NPIAA00D7 (HP Color LaserJet MFP M283fdw)'
+2025-08-26 19:39:52,990 - INFO - 127.0.0.1 - - [26/Aug/2025 19:39:52] "POST /print HTTP/1.1" 200 -
+2025-08-26 19:41:50,385 - INFO - 127.0.0.1 - - [26/Aug/2025 19:41:50] "OPTIONS /test-print HTTP/1.1" 200 -
+2025-08-26 19:41:50,846 - INFO - Print job 'Test Print' sent to standard printer 'NPIAA00D7 (HP Color LaserJet MFP M283fdw)'
+2025-08-26 19:41:50,849 - INFO - 127.0.0.1 - - [26/Aug/2025 19:41:50] "POST /test-print HTTP/1.1" 200 -
+2025-08-26 19:42:06,860 - INFO - 127.0.0.1 - - [26/Aug/2025 19:42:06] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 19:42:07,368 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent to standard printer 'NPIAA00D7 (HP Color LaserJet MFP M283fdw)'
+2025-08-26 19:42:07,371 - INFO - 127.0.0.1 - - [26/Aug/2025 19:42:07] "POST /print HTTP/1.1" 200 -
+2025-08-26 19:48:50,735 - INFO - 127.0.0.1 - - [26/Aug/2025 19:48:50] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 19:48:51,203 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent to standard printer 'NPIAA00D7 (HP Color LaserJet MFP M283fdw)'
+2025-08-26 19:48:51,207 - INFO - 127.0.0.1 - - [26/Aug/2025 19:48:51] "POST /print HTTP/1.1" 200 -
+2025-08-26 19:50:40,697 - INFO - 127.0.0.1 - - [26/Aug/2025 19:50:40] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 19:50:41,419 - INFO - Print job 'Receipt #TEST001' sent to standard printer 'NPIAA00D7 (HP Color LaserJet MFP M283fdw)'
+2025-08-26 19:50:41,426 - INFO - 127.0.0.1 - - [26/Aug/2025 19:50:41] "POST /print HTTP/1.1" 200 -
+2025-08-26 19:50:48,123 - INFO - 127.0.0.1 - - [26/Aug/2025 19:50:48] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 19:50:51,835 - INFO - 127.0.0.1 - - [26/Aug/2025 19:50:51] "OPTIONS /status HTTP/1.1" 200 -
+2025-08-26 19:50:51,884 - INFO - 127.0.0.1 - - [26/Aug/2025 19:50:51] "GET /status HTTP/1.1" 200 -
+2025-08-26 19:59:46,606 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\diagnose_driver.py', reloading
+2025-08-26 19:59:46,756 - INFO -  * Restarting with stat
+2025-08-26 19:59:47,010 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\diagnose_driver.py', reloading
+2025-08-26 19:59:47,017 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\diagnose_driver.py', reloading
+2025-08-26 19:59:47,261 - INFO -  * Restarting with stat
+2025-08-26 19:59:47,305 - INFO -  * Restarting with stat
+2025-08-26 19:59:47,538 - WARNING -  * Debugger is active!
+2025-08-26 19:59:47,544 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 19:59:47,944 - WARNING -  * Debugger is active!
+2025-08-26 19:59:47,947 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 19:59:47,989 - WARNING -  * Debugger is active!
+2025-08-26 19:59:47,993 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 20:04:48,616 - INFO - 127.0.0.1 - - [26/Aug/2025 20:04:48] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 20:04:48,939 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent to Star TSP100 with Chinese support
+2025-08-26 20:04:48,942 - INFO - 127.0.0.1 - - [26/Aug/2025 20:04:48] "POST /print HTTP/1.1" 200 -
+2025-08-26 20:04:57,408 - INFO - 127.0.0.1 - - [26/Aug/2025 20:04:57] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 20:04:57,724 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent to Star TSP100 with Chinese support
+2025-08-26 20:04:57,726 - INFO - 127.0.0.1 - - [26/Aug/2025 20:04:57] "POST /print HTTP/1.1" 200 -
+2025-08-26 20:06:44,584 - INFO - 127.0.0.1 - - [26/Aug/2025 20:06:44] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 20:06:44,957 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent to Star TSP100 with Chinese support
+2025-08-26 20:06:44,959 - INFO - 127.0.0.1 - - [26/Aug/2025 20:06:44] "POST /print HTTP/1.1" 200 -
+2025-08-26 20:09:21,496 - INFO - 127.0.0.1 - - [26/Aug/2025 20:09:21] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 20:09:21,919 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent to standard printer 'Generic / Text Only'
+2025-08-26 20:09:21,920 - INFO - 127.0.0.1 - - [26/Aug/2025 20:09:21] "POST /print HTTP/1.1" 200 -
+2025-08-26 20:09:28,394 - INFO - 127.0.0.1 - - [26/Aug/2025 20:09:28] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 20:09:28,862 - INFO - Print job 'Web Interface Test Print' sent to standard printer 'Generic / Text Only'
+2025-08-26 20:09:28,864 - INFO - 127.0.0.1 - - [26/Aug/2025 20:09:28] "POST /print HTTP/1.1" 200 -
+2025-08-26 20:09:30,828 - INFO - 127.0.0.1 - - [26/Aug/2025 20:09:30] "OPTIONS /printers HTTP/1.1" 200 -
+2025-08-26 20:09:31,145 - INFO - 127.0.0.1 - - [26/Aug/2025 20:09:31] "GET /printers HTTP/1.1" 200 -
+2025-08-26 20:09:55,624 - INFO - 127.0.0.1 - - [26/Aug/2025 20:09:55] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 20:09:55,908 - INFO - Print job 'Web Interface Test Print' sent to Star TSP100 with Chinese support
+2025-08-26 20:09:55,909 - INFO - 127.0.0.1 - - [26/Aug/2025 20:09:55] "POST /print HTTP/1.1" 200 -
+2025-08-26 20:10:02,776 - INFO - 127.0.0.1 - - [26/Aug/2025 20:10:02] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 20:10:03,070 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent to Star TSP100 with Chinese support
+2025-08-26 20:10:03,071 - INFO - 127.0.0.1 - - [26/Aug/2025 20:10:03] "POST /print HTTP/1.1" 200 -
+2025-08-26 20:14:55,714 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\fix_charset.py', reloading
+2025-08-26 20:14:55,812 - INFO -  * Restarting with stat
+2025-08-26 20:14:55,908 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\fix_charset.py', reloading
+2025-08-26 20:14:55,915 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\fix_charset.py', reloading
+2025-08-26 20:14:56,145 - INFO -  * Restarting with stat
+2025-08-26 20:14:56,145 - INFO -  * Restarting with stat
+2025-08-26 20:14:56,799 - WARNING -  * Debugger is active!
+2025-08-26 20:14:56,802 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 20:14:56,948 - WARNING -  * Debugger is active!
+2025-08-26 20:14:56,950 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 20:14:56,954 - WARNING -  * Debugger is active!
+2025-08-26 20:14:56,958 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 20:18:38,877 - INFO - 127.0.0.1 - - [26/Aug/2025 20:18:38] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 20:18:39,176 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent to Star TSP100 with Chinese support
+2025-08-26 20:18:39,177 - INFO - 127.0.0.1 - - [26/Aug/2025 20:18:39] "POST /print HTTP/1.1" 200 -
+2025-08-26 20:19:10,086 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-26 20:19:10,339 - INFO -  * Restarting with stat
+2025-08-26 20:19:10,516 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-26 20:19:10,537 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-26 20:19:10,897 - INFO -  * Restarting with stat
+2025-08-26 20:19:10,897 - INFO -  * Restarting with stat
+2025-08-26 20:19:11,836 - WARNING -  * Debugger is active!
+2025-08-26 20:19:11,841 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 20:19:11,856 - WARNING -  * Debugger is active!
+2025-08-26 20:19:11,858 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 20:19:11,879 - INFO - 127.0.0.1 - - [26/Aug/2025 20:19:11] "OPTIONS /printers HTTP/1.1" 200 -
+2025-08-26 20:19:12,006 - WARNING -  * Debugger is active!
+2025-08-26 20:19:12,009 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 20:19:12,662 - INFO - 127.0.0.1 - - [26/Aug/2025 20:19:12] "GET /printers HTTP/1.1" 200 -
+2025-08-26 20:19:14,714 - INFO - 127.0.0.1 - - [26/Aug/2025 20:19:14] "GET /printers HTTP/1.1" 200 -
+2025-08-26 20:21:16,375 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.124.182:5000
+2025-08-26 20:21:16,375 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-26 20:21:16,376 - INFO -  * Restarting with stat
+2025-08-26 20:21:16,961 - WARNING -  * Debugger is active!
+2025-08-26 20:21:16,963 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 20:22:21,068 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\fix_charset.py', reloading
+2025-08-26 20:22:21,154 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\fix_charset.py', reloading
+2025-08-26 20:22:21,198 - INFO -  * Restarting with stat
+2025-08-26 20:22:21,205 - INFO -  * Restarting with stat
+2025-08-26 20:22:21,324 - INFO -  * Restarting with stat
+2025-08-26 20:22:21,439 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-26 20:22:21,655 - INFO -  * Restarting with stat
+2025-08-26 20:22:22,298 - WARNING -  * Debugger is active!
+2025-08-26 20:22:22,303 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 20:22:22,330 - WARNING -  * Debugger is active!
+2025-08-26 20:22:22,332 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 20:22:22,358 - WARNING -  * Debugger is active!
+2025-08-26 20:22:22,360 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 20:22:22,524 - WARNING -  * Debugger is active!
+2025-08-26 20:22:22,526 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 20:22:29,520 - INFO - 127.0.0.1 - - [26/Aug/2025 20:22:29] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 20:22:29,875 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent to Star TSP100 with GBK encoding
+2025-08-26 20:22:29,878 - INFO - 127.0.0.1 - - [26/Aug/2025 20:22:29] "POST /print HTTP/1.1" 200 -
+2025-08-26 20:22:50,538 - INFO - 127.0.0.1 - - [26/Aug/2025 20:22:50] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 20:22:50,882 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent to Star TSP100 with GBK encoding
+2025-08-26 20:22:50,883 - INFO - 127.0.0.1 - - [26/Aug/2025 20:22:50] "POST /print HTTP/1.1" 200 -
+2025-08-26 20:23:04,318 - INFO - 127.0.0.1 - - [26/Aug/2025 20:23:04] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 20:23:04,638 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent to Star TSP100 with GBK encoding
+2025-08-26 20:23:04,640 - INFO - 127.0.0.1 - - [26/Aug/2025 20:23:04] "POST /print HTTP/1.1" 200 -
+2025-08-26 20:23:57,070 - INFO - 127.0.0.1 - - [26/Aug/2025 20:23:57] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 20:23:57,374 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent to Star TSP100 with GBK encoding
+2025-08-26 20:23:57,375 - INFO - 127.0.0.1 - - [26/Aug/2025 20:23:57] "POST /print HTTP/1.1" 200 -
+2025-08-26 20:24:37,481 - INFO - 127.0.0.1 - - [26/Aug/2025 20:24:37] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 20:24:37,774 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent to Star TSP100 with GBK encoding
+2025-08-26 20:24:37,775 - INFO - 127.0.0.1 - - [26/Aug/2025 20:24:37] "POST /print HTTP/1.1" 200 -
+2025-08-26 20:24:46,495 - INFO - 127.0.0.1 - - [26/Aug/2025 20:24:46] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 20:24:46,805 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent to Star TSP100 with GBK encoding
+2025-08-26 20:24:46,806 - INFO - 127.0.0.1 - - [26/Aug/2025 20:24:46] "POST /print HTTP/1.1" 200 -
+2025-08-26 20:25:18,412 - INFO - 127.0.0.1 - - [26/Aug/2025 20:25:18] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 20:25:18,699 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent to Star TSP100 with GBK encoding
+2025-08-26 20:25:18,700 - INFO - 127.0.0.1 - - [26/Aug/2025 20:25:18] "POST /print HTTP/1.1" 200 -
+2025-08-26 20:25:50,528 - INFO - 127.0.0.1 - - [26/Aug/2025 20:25:50] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 20:25:50,837 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent to Star TSP100 with GBK encoding
+2025-08-26 20:25:50,839 - INFO - 127.0.0.1 - - [26/Aug/2025 20:25:50] "POST /print HTTP/1.1" 200 -
+2025-08-26 20:26:02,027 - INFO - 127.0.0.1 - - [26/Aug/2025 20:26:02] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 20:26:02,343 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent to Star TSP100 with GBK encoding
+2025-08-26 20:26:02,345 - INFO - 127.0.0.1 - - [26/Aug/2025 20:26:02] "POST /print HTTP/1.1" 200 -
+2025-08-26 20:28:35,727 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\fix_traditional_chinese.py', reloading
+2025-08-26 20:28:35,875 - INFO -  * Restarting with stat
+2025-08-26 20:28:35,875 - INFO -  * Restarting with stat
+2025-08-26 20:28:36,539 - WARNING -  * Debugger is active!
+2025-08-26 20:28:36,540 - WARNING -  * Debugger is active!
+2025-08-26 20:28:36,543 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 20:28:36,544 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 20:29:56,859 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-26 20:29:56,914 - INFO -  * Restarting with stat
+2025-08-26 20:29:56,936 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-26 20:29:56,936 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-26 20:29:57,018 - INFO -  * Restarting with stat
+2025-08-26 20:29:57,023 - INFO -  * Restarting with stat
+2025-08-26 20:29:57,600 - WARNING -  * Debugger is active!
+2025-08-26 20:29:57,603 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 20:29:57,637 - WARNING -  * Debugger is active!
+2025-08-26 20:29:57,638 - WARNING -  * Debugger is active!
+2025-08-26 20:29:57,641 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 20:29:57,642 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 20:29:57,658 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-26 20:29:57,751 - INFO -  * Restarting with stat
+2025-08-26 20:29:58,188 - WARNING -  * Debugger is active!
+2025-08-26 20:29:58,190 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 20:31:38,642 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\test_both_chinese.py', reloading
+2025-08-26 20:31:38,723 - INFO -  * Restarting with stat
+2025-08-26 20:31:39,230 - WARNING -  * Debugger is active!
+2025-08-26 20:31:39,232 - INFO -  * Debugger PIN: 140-731-019
+2025-08-26 20:41:35,400 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.124.182:5000
+2025-08-26 20:41:35,402 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-26 20:41:35,417 - INFO -  * Restarting with stat
+2025-08-26 20:41:35,882 - WARNING -  * Debugger is active!
+2025-08-26 20:41:35,887 - INFO -  * Debugger PIN: 887-008-186
+2025-08-26 20:41:44,994 - INFO - 127.0.0.1 - - [26/Aug/2025 20:41:44] "OPTIONS /status HTTP/1.1" 200 -
+2025-08-26 20:41:45,239 - INFO - 127.0.0.1 - - [26/Aug/2025 20:41:45] "GET /status HTTP/1.1" 200 -
+2025-08-26 20:43:26,195 - INFO - 127.0.0.1 - - [26/Aug/2025 20:43:26] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 20:43:28,711 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent using Big5 Traditional encoding
+2025-08-26 20:43:28,714 - INFO - 127.0.0.1 - - [26/Aug/2025 20:43:28] "POST /print HTTP/1.1" 200 -
+2025-08-26 21:02:32,479 - WARNING - Invalid API key attempt from 192.168.124.112
+2025-08-26 21:02:32,503 - INFO - 192.168.124.112 - - [26/Aug/2025 21:02:32] "[31m[1mPOST /print HTTP/1.1[0m" 401 -
+2025-08-26 21:02:33,548 - WARNING - Invalid API key attempt from 192.168.124.112
+2025-08-26 21:02:33,550 - INFO - 192.168.124.112 - - [26/Aug/2025 21:02:33] "[31m[1mPOST /print HTTP/1.1[0m" 401 -
+2025-08-26 21:02:33,580 - WARNING - Invalid API key attempt from 192.168.124.112
+2025-08-26 21:02:33,582 - INFO - 192.168.124.112 - - [26/Aug/2025 21:02:33] "[31m[1mPOST /print HTTP/1.1[0m" 401 -
+2025-08-26 21:02:34,640 - WARNING - Invalid API key attempt from 192.168.124.112
+2025-08-26 21:02:34,641 - INFO - 192.168.124.112 - - [26/Aug/2025 21:02:34] "[31m[1mPOST /print HTTP/1.1[0m" 401 -
+2025-08-26 21:06:34,003 - INFO - 192.168.124.112 - - [26/Aug/2025 21:06:34] "GET /status HTTP/1.1" 200 -
+2025-08-26 21:17:30,465 - INFO - 127.0.0.1 - - [26/Aug/2025 21:17:30] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 21:17:32,740 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent using Big5 Traditional encoding
+2025-08-26 21:17:32,752 - INFO - 127.0.0.1 - - [26/Aug/2025 21:17:32] "POST /print HTTP/1.1" 200 -
+2025-08-26 21:18:24,791 - INFO - 127.0.0.1 - - [26/Aug/2025 21:18:24] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 21:18:27,068 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent using Big5 Traditional encoding
+2025-08-26 21:18:27,071 - INFO - 127.0.0.1 - - [26/Aug/2025 21:18:27] "POST /print HTTP/1.1" 200 -
+2025-08-26 21:19:05,101 - INFO - 127.0.0.1 - - [26/Aug/2025 21:19:05] "OPTIONS /print HTTP/1.1" 200 -
+2025-08-26 21:19:07,241 - INFO - Print job '¤¤¤å´ú¸Õ¦C¦L' sent using Big5 Traditional encoding
+2025-08-26 21:19:07,243 - INFO - 127.0.0.1 - - [26/Aug/2025 21:19:07] "POST /print HTTP/1.1" 200 -
+2025-08-27 19:08:09,429 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.124.182:5000
+2025-08-27 19:08:09,444 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-27 19:08:09,485 - INFO -  * Restarting with stat
+2025-08-27 19:08:12,808 - WARNING -  * Debugger is active!
+2025-08-27 19:08:12,831 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 19:09:28,651 - INFO - 192.168.124.112 - - [27/Aug/2025 19:09:28] "GET /status HTTP/1.1" 200 -
+2025-08-27 19:14:25,344 - INFO - Print job 'Chinese Character Test' sent using Big5 Traditional encoding
+2025-08-27 19:14:25,370 - INFO - 192.168.124.112 - - [27/Aug/2025 19:14:25] "POST /print HTTP/1.1" 200 -
+2025-08-27 19:16:30,918 - INFO - Print job 'Chinese Character Test' sent using Big5 Traditional encoding
+2025-08-27 19:16:31,365 - INFO - 192.168.124.112 - - [27/Aug/2025 19:16:31] "POST /print HTTP/1.1" 200 -
+2025-08-27 19:17:11,707 - INFO - Print job 'Chinese Character Test' sent using Big5 Traditional encoding
+2025-08-27 19:17:11,709 - INFO - 192.168.124.112 - - [27/Aug/2025 19:17:11] "POST /print HTTP/1.1" 200 -
+2025-08-27 19:35:53,327 - INFO - Print job 'Order Receipt - ORD_20250827_4868' sent using Big5 Traditional encoding
+2025-08-27 19:35:53,354 - INFO - 192.168.124.112 - - [27/Aug/2025 19:35:53] "POST /print HTTP/1.1" 200 -
+2025-08-27 19:36:17,110 - INFO - Print job 'Order Receipt - ORD_20250827_6645' sent using Big5 Traditional encoding
+2025-08-27 19:36:17,122 - INFO - 192.168.124.112 - - [27/Aug/2025 19:36:17] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:19:49,534 - INFO - Print job 'Order Receipt - ORD_20250827_1735' sent using Big5 Traditional encoding
+2025-08-27 20:19:49,548 - INFO - 192.168.124.112 - - [27/Aug/2025 20:19:49] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:20:04,626 - INFO - Print job 'Order Receipt - ORD_20250827_7809' sent using Big5 Traditional encoding
+2025-08-27 20:20:04,629 - INFO - 192.168.124.112 - - [27/Aug/2025 20:20:04] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:20:31,474 - INFO - Print job 'Order Receipt - 39 (Copy 1)' sent using Big5 Traditional encoding
+2025-08-27 20:20:31,476 - INFO - 192.168.124.112 - - [27/Aug/2025 20:20:31] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:20:33,202 - INFO - Print job 'Order Receipt - 39 (Copy 2)' sent using Big5 Traditional encoding
+2025-08-27 20:20:33,204 - INFO - 192.168.124.112 - - [27/Aug/2025 20:20:33] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:21:23,427 - INFO - Print job 'Order Receipt - 40 (Copy 1)' sent using Big5 Traditional encoding
+2025-08-27 20:21:23,428 - INFO - 192.168.124.112 - - [27/Aug/2025 20:21:23] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:21:25,054 - INFO - Print job 'Order Receipt - 40 (Copy 2)' sent using Big5 Traditional encoding
+2025-08-27 20:21:25,056 - INFO - 192.168.124.112 - - [27/Aug/2025 20:21:25] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:22:49,638 - INFO - Print job 'Order Receipt - 41 (Copy 1)' sent using Big5 Traditional encoding
+2025-08-27 20:22:49,642 - INFO - 192.168.124.112 - - [27/Aug/2025 20:22:49] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:22:51,819 - INFO - Print job 'Order Receipt - 41 (Copy 2)' sent using Big5 Traditional encoding
+2025-08-27 20:22:51,822 - INFO - 192.168.124.112 - - [27/Aug/2025 20:22:51] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:22:54,721 - INFO - Print job 'Order Receipt - 42 (Copy 1)' sent using Big5 Traditional encoding
+2025-08-27 20:22:54,722 - INFO - 192.168.124.112 - - [27/Aug/2025 20:22:54] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:22:57,031 - INFO - Print job 'Order Receipt - 42 (Copy 2)' sent using Big5 Traditional encoding
+2025-08-27 20:22:57,032 - INFO - 192.168.124.112 - - [27/Aug/2025 20:22:57] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:23:22,048 - INFO - Print job 'Order Receipt - 43 (Copy 1)' sent using Big5 Traditional encoding
+2025-08-27 20:23:22,051 - INFO - 192.168.124.112 - - [27/Aug/2025 20:23:22] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:23:23,715 - INFO - Print job 'Order Receipt - 43 (Copy 2)' sent using Big5 Traditional encoding
+2025-08-27 20:23:23,717 - INFO - 192.168.124.112 - - [27/Aug/2025 20:23:23] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:28:47,214 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-27 20:28:47,365 - INFO -  * Restarting with stat
+2025-08-27 20:28:49,439 - WARNING -  * Debugger is active!
+2025-08-27 20:28:49,442 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 20:28:55,735 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-27 20:28:55,772 - INFO -  * Restarting with stat
+2025-08-27 20:28:56,144 - WARNING -  * Debugger is active!
+2025-08-27 20:28:56,146 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 20:29:07,601 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-27 20:29:07,642 - INFO -  * Restarting with stat
+2025-08-27 20:29:08,013 - WARNING -  * Debugger is active!
+2025-08-27 20:29:08,019 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 20:29:23,706 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-27 20:29:23,768 - INFO -  * Restarting with stat
+2025-08-27 20:29:24,146 - WARNING -  * Debugger is active!
+2025-08-27 20:29:24,150 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 20:34:07,429 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\test_font_sizes.py', reloading
+2025-08-27 20:34:07,481 - INFO -  * Restarting with stat
+2025-08-27 20:34:07,891 - WARNING -  * Debugger is active!
+2025-08-27 20:34:07,894 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 20:34:39,651 - INFO - Print job 'Order Receipt - 44 (Copy 1)' sent using Big5 Traditional encoding
+2025-08-27 20:34:39,655 - INFO - 192.168.124.112 - - [27/Aug/2025 20:34:39] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:34:41,936 - INFO - Print job 'Order Receipt - 44 (Copy 2)' sent using Big5 Traditional encoding
+2025-08-27 20:34:41,938 - INFO - 192.168.124.112 - - [27/Aug/2025 20:34:41] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:38:55,996 - INFO - Print job 'Order Receipt - 45 (Copy 1)' sent using GBK Simplified encoding
+2025-08-27 20:38:55,998 - INFO - 192.168.124.112 - - [27/Aug/2025 20:38:55] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:38:58,430 - INFO - Print job 'Order Receipt - 45 (Copy 2)' sent using GBK Simplified encoding
+2025-08-27 20:38:58,432 - INFO - 192.168.124.112 - - [27/Aug/2025 20:38:58] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:39:30,731 - INFO - Print job 'Order Receipt - 46 (Copy 1)' sent using Big5 Traditional encoding
+2025-08-27 20:39:30,732 - INFO - 192.168.124.112 - - [27/Aug/2025 20:39:30] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:39:32,997 - INFO - Print job 'Order Receipt - 46 (Copy 2)' sent using Big5 Traditional encoding
+2025-08-27 20:39:32,998 - INFO - 192.168.124.112 - - [27/Aug/2025 20:39:32] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:46:33,332 - INFO - Print job 'Order Receipt - 47 (Copy 1)' sent using GBK Simplified encoding
+2025-08-27 20:46:33,333 - INFO - 192.168.124.112 - - [27/Aug/2025 20:46:33] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:46:35,192 - INFO - Print job 'Order Receipt - 47 (Copy 2)' sent using GBK Simplified encoding
+2025-08-27 20:46:35,194 - INFO - 192.168.124.112 - - [27/Aug/2025 20:46:35] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:47:26,685 - INFO - Print job 'Order Receipt - 48 (Copy 1)' sent using GBK Simplified encoding
+2025-08-27 20:47:26,686 - INFO - 192.168.124.112 - - [27/Aug/2025 20:47:26] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:47:28,551 - INFO - Print job 'Order Receipt - 48 (Copy 2)' sent using GBK Simplified encoding
+2025-08-27 20:47:28,552 - INFO - 192.168.124.112 - - [27/Aug/2025 20:47:28] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:48:22,621 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-27 20:48:22,689 - INFO -  * Restarting with stat
+2025-08-27 20:48:23,077 - WARNING -  * Debugger is active!
+2025-08-27 20:48:23,080 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 20:48:57,550 - INFO - Print job 'Order Receipt - 49 (Copy 1)' sent using GBK Simplified encoding
+2025-08-27 20:48:57,553 - INFO - 192.168.124.112 - - [27/Aug/2025 20:48:57] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:48:59,458 - INFO - Print job 'Order Receipt - 49 (Copy 2)' sent using GBK Simplified encoding
+2025-08-27 20:48:59,460 - INFO - 192.168.124.112 - - [27/Aug/2025 20:48:59] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:49:25,455 - INFO - Print job 'Order Receipt - ORD_20250827_3993' sent using Big5 Traditional encoding
+2025-08-27 20:49:25,456 - INFO - 192.168.124.112 - - [27/Aug/2025 20:49:25] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:49:40,498 - INFO - Print job 'Order Receipt - 50 (Copy 1)' sent using GBK Simplified encoding
+2025-08-27 20:49:40,500 - INFO - 192.168.124.112 - - [27/Aug/2025 20:49:40] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:49:42,546 - INFO - Print job 'Order Receipt - 50 (Copy 2)' sent using GBK Simplified encoding
+2025-08-27 20:49:42,548 - INFO - 192.168.124.112 - - [27/Aug/2025 20:49:42] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:52:37,312 - INFO - Print job 'PrinterService Chinese Test' sent using Big5 Traditional encoding
+2025-08-27 20:52:37,314 - INFO - 192.168.124.112 - - [27/Aug/2025 20:52:37] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:54:52,716 - INFO - Print job 'Order Receipt - 51 (Copy 1)' sent using Big5 Traditional encoding
+2025-08-27 20:54:52,718 - INFO - 192.168.124.112 - - [27/Aug/2025 20:54:52] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:54:54,861 - INFO - Print job 'Order Receipt - 51 (Copy 2)' sent using Big5 Traditional encoding
+2025-08-27 20:54:54,864 - INFO - 192.168.124.112 - - [27/Aug/2025 20:54:54] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:55:05,340 - INFO - Print job 'Order Receipt - 52 (Copy 1)' sent using Big5 Traditional encoding
+2025-08-27 20:55:05,342 - INFO - 192.168.124.112 - - [27/Aug/2025 20:55:05] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:55:07,528 - INFO - Print job 'Order Receipt - 52 (Copy 2)' sent using Big5 Traditional encoding
+2025-08-27 20:55:07,530 - INFO - 192.168.124.112 - - [27/Aug/2025 20:55:07] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:58:43,105 - INFO - Print job 'Order Receipt - 53 (Copy 1)' sent using Big5 Traditional encoding
+2025-08-27 20:58:43,108 - INFO - 192.168.124.112 - - [27/Aug/2025 20:58:43] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:58:45,657 - INFO - Print job 'Order Receipt - 53 (Copy 2)' sent using Big5 Traditional encoding
+2025-08-27 20:58:45,660 - INFO - 192.168.124.112 - - [27/Aug/2025 20:58:45] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:59:11,097 - INFO - Print job 'Order Receipt - 54 (Copy 1)' sent using GBK Simplified encoding
+2025-08-27 20:59:11,100 - INFO - 192.168.124.112 - - [27/Aug/2025 20:59:11] "POST /print HTTP/1.1" 200 -
+2025-08-27 20:59:13,613 - INFO - Print job 'Order Receipt - 54 (Copy 2)' sent using GBK Simplified encoding
+2025-08-27 20:59:13,616 - INFO - 192.168.124.112 - - [27/Aug/2025 20:59:13] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:08:48,920 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.124.182:5000
+2025-08-27 21:08:48,934 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-27 21:08:49,009 - INFO -  * Restarting with stat
+2025-08-27 21:08:50,923 - WARNING -  * Debugger is active!
+2025-08-27 21:08:50,937 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 21:09:00,026 - INFO - Print job 'Order Receipt - 61 (Copy 1)' sent using GBK Simplified encoding
+2025-08-27 21:09:00,029 - INFO - 192.168.124.112 - - [27/Aug/2025 21:09:00] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:09:02,962 - INFO - Print job 'Order Receipt - 61 (Copy 2)' sent using GBK Simplified encoding
+2025-08-27 21:09:02,964 - INFO - 192.168.124.112 - - [27/Aug/2025 21:09:02] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:09:31,007 - INFO - Print job 'Order Receipt - 62 (Copy 1)' sent using GBK Simplified encoding
+2025-08-27 21:09:31,091 - INFO - 192.168.124.112 - - [27/Aug/2025 21:09:31] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:09:35,237 - INFO - Print job 'Order Receipt - 62 (Copy 2)' sent using GBK Simplified encoding
+2025-08-27 21:09:35,242 - INFO - 192.168.124.112 - - [27/Aug/2025 21:09:35] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:09:48,791 - INFO - Print job 'Order Receipt - 63 (Copy 1)' sent using Big5 Traditional encoding
+2025-08-27 21:09:48,793 - INFO - 192.168.124.112 - - [27/Aug/2025 21:09:48] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:09:51,029 - INFO - Print job 'Order Receipt - 63 (Copy 2)' sent using Big5 Traditional encoding
+2025-08-27 21:09:51,032 - INFO - 192.168.124.112 - - [27/Aug/2025 21:09:51] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:10:24,159 - INFO - Print job 'Order Receipt - 64 (Copy 1)' sent using Big5 Traditional encoding
+2025-08-27 21:10:24,161 - INFO - 192.168.124.112 - - [27/Aug/2025 21:10:24] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:10:26,494 - INFO - Print job 'Order Receipt - 64 (Copy 2)' sent using Big5 Traditional encoding
+2025-08-27 21:10:26,497 - INFO - 192.168.124.112 - - [27/Aug/2025 21:10:26] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:10:44,469 - INFO - Print job 'Order Receipt - 65 (Copy 1)' sent using Big5 Traditional encoding
+2025-08-27 21:10:44,471 - INFO - 192.168.124.112 - - [27/Aug/2025 21:10:44] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:10:47,447 - INFO - Print job 'Order Receipt - 65 (Copy 2)' sent using Big5 Traditional encoding
+2025-08-27 21:10:47,449 - INFO - 192.168.124.112 - - [27/Aug/2025 21:10:47] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:11:04,239 - INFO - Print job 'Order Receipt - 66 (Copy 1)' sent using GBK Simplified encoding
+2025-08-27 21:11:04,241 - INFO - 192.168.124.112 - - [27/Aug/2025 21:11:04] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:11:06,993 - INFO - Print job 'Order Receipt - 66 (Copy 2)' sent using GBK Simplified encoding
+2025-08-27 21:11:06,996 - INFO - 192.168.124.112 - - [27/Aug/2025 21:11:06] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:11:26,714 - INFO - Print job 'Order Receipt - 67 (Copy 1)' sent using GBK Simplified encoding
+2025-08-27 21:11:26,716 - INFO - 192.168.124.112 - - [27/Aug/2025 21:11:26] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:11:29,228 - INFO - Print job 'Order Receipt - 67 (Copy 2)' sent using GBK Simplified encoding
+2025-08-27 21:11:29,231 - INFO - 192.168.124.112 - - [27/Aug/2025 21:11:29] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:14:05,289 - INFO - Print job 'Test 1 - With Header' sent using Big5 Traditional encoding
+2025-08-27 21:14:05,292 - INFO - 192.168.124.112 - - [27/Aug/2025 21:14:05] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:14:09,071 - INFO - Print job 'Test 2 - Without Header' sent using Big5 Traditional encoding
+2025-08-27 21:14:09,073 - INFO - 192.168.124.112 - - [27/Aug/2025 21:14:09] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:14:13,316 - INFO - Print job 'Test 3 - Different Header' sent using Big5 Traditional encoding
+2025-08-27 21:14:13,317 - INFO - 192.168.124.112 - - [27/Aug/2025 21:14:13] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:14:17,082 - INFO - Print job 'Test 4 - Minimal Chinese' sent using Big5 Traditional encoding
+2025-08-27 21:14:17,083 - INFO - 192.168.124.112 - - [27/Aug/2025 21:14:17] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:14:27,350 - INFO - Print job 'Test 1 - With Header' sent using Big5 Traditional encoding
+2025-08-27 21:14:27,351 - INFO - 192.168.124.112 - - [27/Aug/2025 21:14:27] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:14:31,183 - INFO - Print job 'Test 2 - Without Header' sent using Big5 Traditional encoding
+2025-08-27 21:14:31,185 - INFO - 192.168.124.112 - - [27/Aug/2025 21:14:31] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:14:34,865 - INFO - Print job 'Test 3 - Different Header' sent using Big5 Traditional encoding
+2025-08-27 21:14:34,867 - INFO - 192.168.124.112 - - [27/Aug/2025 21:14:34] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:14:38,399 - INFO - Print job 'Test 4 - Minimal Chinese' sent using Big5 Traditional encoding
+2025-08-27 21:14:38,400 - INFO - 192.168.124.112 - - [27/Aug/2025 21:14:38] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:15:13,137 - INFO - Print job 'Order Receipt - 68 (Copy 1)' sent using GBK Simplified encoding
+2025-08-27 21:15:13,139 - INFO - 192.168.124.112 - - [27/Aug/2025 21:15:13] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:15:15,208 - INFO - Print job 'Order Receipt - 68 (Copy 2)' sent using GBK Simplified encoding
+2025-08-27 21:15:15,211 - INFO - 192.168.124.112 - - [27/Aug/2025 21:15:15] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:15:58,757 - INFO - Print job 'Order Receipt - 69 (Copy 1)' sent using GBK Simplified encoding
+2025-08-27 21:15:58,761 - INFO - 192.168.124.112 - - [27/Aug/2025 21:15:58] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:16:00,881 - INFO - Print job 'Order Receipt - 69 (Copy 2)' sent using GBK Simplified encoding
+2025-08-27 21:16:00,884 - INFO - 192.168.124.112 - - [27/Aug/2025 21:16:00] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:17:27,228 - INFO - Print job 'Order Receipt - 70 (Copy 1)' sent using GBK Simplified encoding
+2025-08-27 21:17:27,230 - INFO - 192.168.124.112 - - [27/Aug/2025 21:17:27] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:17:29,503 - INFO - Print job 'Order Receipt - 70 (Copy 2)' sent using GBK Simplified encoding
+2025-08-27 21:17:29,505 - INFO - 192.168.124.112 - - [27/Aug/2025 21:17:29] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:18:19,429 - INFO - Print job 'Order Receipt - 71 (Copy 1)' sent using GBK Simplified encoding
+2025-08-27 21:18:19,431 - INFO - 192.168.124.112 - - [27/Aug/2025 21:18:19] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:18:22,558 - INFO - Print job 'Order Receipt - 71 (Copy 2)' sent using GBK Simplified encoding
+2025-08-27 21:18:22,560 - INFO - 192.168.124.112 - - [27/Aug/2025 21:18:22] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:18:40,405 - INFO - Print job 'Order Receipt - 72 (Copy 1)' sent using GBK Simplified encoding
+2025-08-27 21:18:40,408 - INFO - 192.168.124.112 - - [27/Aug/2025 21:18:40] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:18:42,785 - INFO - Print job 'Order Receipt - 72 (Copy 2)' sent using GBK Simplified encoding
+2025-08-27 21:18:42,787 - INFO - 192.168.124.112 - - [27/Aug/2025 21:18:42] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:19:39,098 - INFO - Print job 'Order Receipt - 73 (Copy 1)' sent using GBK Simplified encoding
+2025-08-27 21:19:39,101 - INFO - 192.168.124.112 - - [27/Aug/2025 21:19:39] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:19:41,171 - INFO - Print job 'Order Receipt - 73 (Copy 2)' sent using GBK Simplified encoding
+2025-08-27 21:19:41,173 - INFO - 192.168.124.112 - - [27/Aug/2025 21:19:41] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:20:09,852 - INFO - Print job 'Order Receipt - 74 (Copy 1)' sent using Big5 Traditional encoding
+2025-08-27 21:20:09,853 - INFO - 192.168.124.112 - - [27/Aug/2025 21:20:09] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:21:00,614 - INFO - Print job 'Order Receipt - 74 (Copy 2)' sent using Big5 Traditional encoding
+2025-08-27 21:21:00,663 - INFO - 192.168.124.112 - - [27/Aug/2025 21:21:00] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:21:03,272 - INFO - Print job 'Order Receipt - 75 (Copy 1)' sent using GBK Simplified encoding
+2025-08-27 21:21:03,273 - INFO - 192.168.124.112 - - [27/Aug/2025 21:21:03] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:21:05,196 - INFO - Print job 'Order Receipt - 75 (Copy 2)' sent using GBK Simplified encoding
+2025-08-27 21:21:05,197 - INFO - 192.168.124.112 - - [27/Aug/2025 21:21:05] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:21:33,327 - INFO - Print job 'Order Receipt - 76 (Copy 1)' sent using Big5 Traditional encoding
+2025-08-27 21:21:33,331 - INFO - 192.168.124.112 - - [27/Aug/2025 21:21:33] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:21:35,706 - INFO - Print job 'Order Receipt - 76 (Copy 2)' sent using Big5 Traditional encoding
+2025-08-27 21:21:35,708 - INFO - 192.168.124.112 - - [27/Aug/2025 21:21:35] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:22:03,833 - INFO - Print job 'Order Receipt - 77 (Copy 1)' sent using GBK Simplified encoding
+2025-08-27 21:22:03,835 - INFO - 192.168.124.112 - - [27/Aug/2025 21:22:03] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:22:05,778 - INFO - Print job 'Order Receipt - 77 (Copy 2)' sent using GBK Simplified encoding
+2025-08-27 21:22:05,781 - INFO - 192.168.124.112 - - [27/Aug/2025 21:22:05] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:22:30,788 - INFO - Print job 'Order Receipt - 78 (Copy 1)' sent using Big5 Traditional encoding
+2025-08-27 21:22:30,790 - INFO - 192.168.124.112 - - [27/Aug/2025 21:22:30] "POST /print HTTP/1.1" 200 -
+2025-08-27 21:22:33,217 - INFO - Print job 'Order Receipt - 78 (Copy 2)' sent using Big5 Traditional encoding
+2025-08-27 21:22:33,285 - INFO - 192.168.124.112 - - [27/Aug/2025 21:22:33] "POST /print HTTP/1.1" 200 -
+2025-08-27 22:15:08,833 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.124.182:5000
+2025-08-27 22:15:08,833 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-27 22:15:08,844 - INFO -  * Restarting with stat
+2025-08-27 22:15:09,241 - WARNING -  * Debugger is active!
+2025-08-27 22:15:09,246 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 22:25:35,675 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-27 22:25:35,793 - INFO -  * Restarting with stat
+2025-08-27 22:25:36,541 - WARNING -  * Debugger is active!
+2025-08-27 22:25:36,543 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 22:26:03,340 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:200
+ * Running on http://192.168.0.184:200
+2025-08-27 22:26:03,342 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-27 22:26:03,345 - INFO -  * Restarting with stat
+2025-08-27 22:26:03,751 - WARNING -  * Debugger is active!
+2025-08-27 22:26:03,754 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 22:26:20,907 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-27 22:26:20,999 - INFO -  * Restarting with stat
+2025-08-27 22:26:21,685 - WARNING -  * Debugger is active!
+2025-08-27 22:26:21,688 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 22:26:28,509 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.184:5000
+2025-08-27 22:26:28,510 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-27 22:26:28,512 - INFO -  * Restarting with stat
+2025-08-27 22:26:28,898 - WARNING -  * Debugger is active!
+2025-08-27 22:26:28,901 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 22:34:29,764 - INFO - 192.168.0.184 - - [27/Aug/2025 22:34:29] "GET /status HTTP/1.1" 200 -
+2025-08-27 22:36:49,707 - INFO - 192.168.0.184 - - [27/Aug/2025 22:36:49] "GET /status HTTP/1.1" 200 -
+2025-08-27 23:13:26,074 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.184:5000
+2025-08-27 23:13:26,077 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-27 23:13:26,098 - INFO -  * Restarting with stat
+2025-08-27 23:13:26,530 - WARNING -  * Debugger is active!
+2025-08-27 23:13:26,537 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 23:23:51,667 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.184:5000
+2025-08-27 23:23:51,668 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-27 23:23:51,680 - INFO -  * Restarting with stat
+2025-08-27 23:23:52,328 - WARNING -  * Debugger is active!
+2025-08-27 23:23:52,336 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 23:32:03,085 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-27 23:32:03,304 - INFO -  * Restarting with stat
+2025-08-27 23:32:03,885 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-27 23:32:04,081 - WARNING -  * Debugger is active!
+2025-08-27 23:32:04,084 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 23:32:04,105 - INFO -  * Restarting with stat
+2025-08-27 23:32:04,904 - WARNING -  * Debugger is active!
+2025-08-27 23:32:04,912 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 23:32:18,954 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-27 23:32:19,021 - INFO -  * Restarting with stat
+2025-08-27 23:32:19,037 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-27 23:32:19,164 - INFO -  * Restarting with stat
+2025-08-27 23:32:19,698 - WARNING -  * Debugger is active!
+2025-08-27 23:32:19,702 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 23:32:19,783 - WARNING -  * Debugger is active!
+2025-08-27 23:32:19,786 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 23:32:21,991 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\test_external_access.py', reloading
+2025-08-27 23:32:21,995 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\test_external_access.py', reloading
+2025-08-27 23:32:22,076 - INFO -  * Restarting with stat
+2025-08-27 23:32:22,079 - INFO -  * Restarting with stat
+2025-08-27 23:32:22,607 - WARNING -  * Debugger is active!
+2025-08-27 23:32:22,611 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 23:32:22,612 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 23:37:13,198 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-27 23:37:13,212 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-27 23:37:13,334 - INFO -  * Restarting with stat
+2025-08-27 23:37:14,153 - WARNING -  * Debugger is active!
+2025-08-27 23:37:14,160 - INFO -  * Debugger PIN: 887-008-186
+2025-08-27 23:37:14,161 - INFO -  * Debugger PIN: 887-008-186
+2025-08-28 16:56:54,872 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.160:5000
+2025-08-28 16:56:54,879 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-28 16:56:54,893 - INFO -  * Restarting with stat
+2025-08-28 16:56:55,338 - WARNING -  * Debugger is active!
+2025-08-28 16:56:55,347 - INFO -  * Debugger PIN: 887-008-186
+2025-08-28 17:00:33,861 - INFO -  * Detected change in 'C:\\Users\\DELL\\OneDrive\\®à­±\\printer_server\\windows_print_server.py', reloading
+2025-08-28 17:00:33,961 - INFO -  * Restarting with stat
+2025-08-28 17:00:34,553 - WARNING -  * Debugger is active!
+2025-08-28 17:00:34,562 - INFO -  * Debugger PIN: 887-008-186
+2025-08-28 17:00:42,837 - INFO - 192.168.0.160 - - [28/Aug/2025 17:00:42] "GET /status HTTP/1.1" 200 -
+2025-08-28 17:00:43,245 - INFO - 192.168.0.160 - - [28/Aug/2025 17:00:43] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-08-28 18:01:31,056 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.0.160:8080
+2025-08-28 18:01:31,058 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-28 18:01:31,060 - INFO -  * Restarting with stat
+2025-08-28 18:01:31,694 - WARNING -  * Debugger is active!
+2025-08-28 18:01:31,703 - INFO -  * Debugger PIN: 887-008-186
+2025-08-28 18:06:38,993 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.0.160:8080
+2025-08-28 18:06:38,995 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-28 18:06:38,997 - INFO -  * Restarting with stat
+2025-08-28 18:06:39,416 - WARNING -  * Debugger is active!
+2025-08-28 18:06:39,419 - INFO -  * Debugger PIN: 887-008-186
