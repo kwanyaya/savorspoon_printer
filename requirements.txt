@@ -1,4 +1,7 @@
-flask==2.3.3
-flask-cors==4.0.0
-pywin32==306
-Werkzeug==2.3.7
+# HK Savor Spoon Windows Print Server - Dependencies
+# Install with: pip install -r requirements.txt
+
+flask>=2.3.0
+flask-cors>=4.0.0
+pywin32>=306
+requests>=2.28.0

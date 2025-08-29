@@ -1,199 +1,136 @@
 # HK Savor Spoon - Windows Print Server
 
-A Python-based print server that receives print jobs from your Laravel web application and prints to a local USB thermal printer.
+A lightweight, reliable Python-based print server that receives print jobs from your Laravel web application and prints to local USB thermal printers with full Chinese character support.
 
 ## 🚀 Quick Start
 
-1. **Run Setup**: Double-click `setup.bat` (run as Administrator)
-2. **Connect Printer**: Connect USB printer and set as default
-3. **Configure Firewall**: Allow port 5000 through Windows Firewall
+1. **Download & Setup**: Clone or download this repository
+2. **Run Setup**: Double-click `setup.bat` (run as Administrator)
+3. **Connect Printer**: Connect USB printer and set as default
 4. **Start Server**: Double-click `start_server.bat`
 5. **Test**: Run `python test_server.py`
 
-## 📋 Requirements
+## 📋 System Requirements
 
-- Windows 10/11
-- Python 3.8 or newer
-- USB thermal printer (Star TSP143, Zebra ZD888, etc.)
-- Internet connection
-- Router with port forwarding capability
+- **Operating System**: Windows 10/11
+- **Python**: 3.8 or newer
+- **Printer**: USB thermal printer (Star TSP143, Zebra ZD888, Epson TM-T20, etc.)
+- **Network**: Internet connection for web integration
+- **Hardware**: Any modern Windows PC
 
-## 🔧 Installation
+## 🔧 Installation Guide
 
-### Method 1: Automatic Setup (Recommended)
+### Step 1: Install Python
+1. Download Python 3.8+ from [python.org](https://python.org/downloads/)
+2. **IMPORTANT**: Check "Add Python to PATH" during installation
+3. Verify: Open Command Prompt and run `python --version`
+
+### Step 2: Download Files
 1. Download all files to a folder (e.g., `C:\HKSavorSpoon\`)
-2. Right-click `setup.bat` → "Run as administrator"
-3. Follow the prompts
+2. Keep all files in the same directory
 
-### Method 2: Manual Setup
+### Step 3: Run Setup
+**Option A (Recommended)**: 
+- Right-click `setup.bat` → "Run as administrator"
+
+**Option B (Manual)**:
 ```cmd
-# Install Python packages
 pip install flask flask-cors pywin32
-
-# Or use requirements file
-pip install -r requirements.txt
 ```
 
-## 🖨️ Printer Setup
-
+### Step 4: Configure Printer
 1. Connect your thermal printer via USB
-2. Install drivers (usually auto-detected)
+2. Install printer drivers (usually auto-detected)
 3. Set as default printer:
    - Settings → Printers & scanners
-   - Select printer → Manage → Set as default
+   - Select your printer → Manage → Set as default
 
-## 🔑 Configuration
+### Step 5: Configure Security
+1. Edit `windows_print_server.py`
+2. Change the API key:
+   ```python
+   API_KEY = "your-secure-unique-key-here"
+   ```
 
-### API Key
-Edit `windows_print_server.py` and change the API key:
-```python
-API_KEY = "your-secure-api-key-here"
-```
+### Step 6: Start Server
+- Double-click `start_server.bat`, or
+- Run: `python windows_print_server.py`
 
-### Port Configuration (Optional)
-Default port is 5000. To change:
-```python
-PORT = 5000  # Change to your preferred port
-```
+## 🖨️ Printer Compatibility
 
-## 🌐 Network Setup
+### Fully Tested Printers
+- **Star TSP143III** - Excellent Chinese support
+- **Zebra ZD888** - Good compatibility
+- **Epson TM-T20II** - Works well
 
-### 1. Windows Firewall
-Create inbound rule for port 5000:
-1. Windows Defender Firewall → Advanced settings
-2. Inbound Rules → New Rule
-3. Port → TCP → Specific port: 5000
-4. Allow the connection → All profiles
-5. Name: "HKSavorSpoon Print Server"
+### Character Set Support
+- **English**: Full ASCII support
+- **Chinese Simplified**: GBK/GB2312 encoding
+- **Chinese Traditional**: Big5 encoding
+- **Mixed Text**: English + Chinese in same document
 
-### 2. Find Your Local IP
-```cmd
-ipconfig
-```
-Look for "IPv4 Address" (e.g., 192.168.1.100)
+## 🌐 Network Configuration
 
-### 3. Router Port Forwarding
-1. Access router admin (usually http://192.168.1.1)
-2. Port Forwarding settings
-3. Add rule:
-   - External Port: 5000
-   - Internal IP: Your PC IP
-   - Internal Port: 5000
-   - Protocol: TCP
+### Local Network Setup
 
-### 4. Dynamic DNS (Optional but Recommended)
-- Sign up for free DDNS (No-IP, DuckDNS)
-- Choose hostname (e.g., hksavorspoon-printer.ddns.net)
-- Install DDNS client on Windows
+1. **Find Your IP Address**:
+   ```cmd
+   ipconfig
+   ```
+   Look for "IPv4 Address" (e.g., 192.168.1.100)
 
-## 🏃‍♂️ Running the Server
+2. **Windows Firewall**:
+   - Windows Defender Firewall → Advanced settings
+   - Inbound Rules → New Rule → Port → TCP → 5000 → Allow
+   - Or let `setup.bat` configure it automatically
 
-### Start Server
-```cmd
-python windows_print_server.py
-```
-Or double-click `start_server.bat`
+### Internet Access (Port Forwarding)
 
-### As Windows Service (Production)
-1. Download NSSM from https://nssm.cc/
-2. Install service:
-```cmd
-nssm install HKSavorSpoonPrintServer
-```
-3. Configure:
-   - Path: `C:\Python\python.exe`
-   - Startup directory: `C:\HKSavorSpoon`
-   - Arguments: `windows_print_server.py`
+1. **Router Configuration**:
+   - Access router admin (usually http://192.168.1.1)
+   - Find "Port Forwarding" or "Virtual Server" settings
+   - Add rule:
+     - External Port: 5000
+     - Internal IP: Your PC IP (from ipconfig)
+     - Internal Port: 5000
+     - Protocol: TCP
 
-## 🧪 Testing
+2. **Find Your Public IP**:
+   - Visit [whatismyip.com](https://whatismyip.com)
+   - Note your public IP address
 
-### Local Testing
-```cmd
-# Test server status
-curl http://localhost:5000/status
+3. **Test External Access**:
+   ```bash
+   # From any internet connection
+   curl http://YOUR-PUBLIC-IP:5000/status
+   ```
 
-# Run test suite
-python test_server.py
-```
-
-### Remote Testing
-From another device:
-```cmd
-curl http://YOUR-PUBLIC-IP:5000/status
-```
-
-## 📡 API Endpoints
-
-### GET `/status`
-Server status and information
-```json
-{
-    "status": "online",
-    "server": "HK Savor Spoon Windows Print Server",
-    "computer": "PC-NAME",
-    "local_ip": "192.168.1.100",
-    "default_printer": "Printer Name",
-    "timestamp": "2025-08-26T10:30:00"
-}
-```
-
-### GET `/printers`
-List available printers (requires API key)
-```bash
-curl -H "X-API-Key: your-api-key" http://localhost:5000/printers
-```
-
-### POST `/print`
-Print text or receipt (requires API key)
-
-**Simple Text:**
-```bash
-curl -H "X-API-Key: your-api-key" \
-     -H "Content-Type: application/json" \
-     -d '{"text":"Hello World","job_name":"Test"}' \
-     http://localhost:5000/print
-```
-
-**Receipt:**
-```bash
-curl -H "X-API-Key: your-api-key" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "receipt_data": {
-         "order_id": "ORDER001",
-         "customer_name": "John Doe",
-         "items": [
-           {"name": "Chicken Rice", "quantity": 2, "price": 15.50}
-         ],
-         "total": "31.00",
-         "payment_method": "Cash"
-       }
-     }' \
-     http://localhost:5000/print
-```
-
-### POST `/test-print`
-Send a test print (requires API key)
-```bash
-curl -H "X-API-Key: your-api-key" \
-     -X POST \
-     http://localhost:5000/test-print
-```
+### Dynamic DNS (Recommended for Production)
+- Use services like [No-IP](https://noip.com) or [DuckDNS](https://duckdns.org)
+- Creates a permanent domain name for your dynamic IP
+- Example: `hksavorspoon-printer.ddns.net`
 
 ## 🔗 Laravel Integration
 
-### Environment Variables
-Add to your Laravel `.env`:
+### Environment Configuration
+
+Add to your Laravel `.env` file:
 ```env
-WINDOWS_PRINT_SERVER_URL=http://your-ddns-hostname:5000
-WINDOWS_PRINT_SERVER_API_KEY=your-secure-api-key-here
+WINDOWS_PRINT_SERVER_URL=http://your-domain-or-ip:5000
+WINDOWS_PRINT_SERVER_API_KEY=your-secure-unique-key-here
 ```
 
-### Example PHP Code
+### Service Class Example
+
 ```php
 <?php
 
-class WindowsPrintService
+namespace App\Services;
+
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+
+class PrintService
 {
     private $serverUrl;
     private $apiKey;
@@ -204,101 +141,370 @@ class WindowsPrintService
         $this->apiKey = env('WINDOWS_PRINT_SERVER_API_KEY');
     }
 
+    /**
+     * Print a receipt for an order
+     */
     public function printReceipt($orderData)
     {
-        $url = $this->serverUrl . '/print';
-        
-        $data = [
-            'receipt_data' => [
-                'order_id' => $orderData['id'],
-                'customer_name' => $orderData['customer_name'],
-                'items' => $orderData['items'],
-                'total' => $orderData['total'],
-                'payment_method' => $orderData['payment_method'],
-                'order_time' => $orderData['created_at']
-            ],
-            'job_name' => 'Order #' . $orderData['id']
-        ];
+        try {
+            $response = Http::withHeaders([
+                'X-API-Key' => $this->apiKey,
+                'Content-Type' => 'application/json'
+            ])->timeout(30)->post($this->serverUrl . '/print', [
+                'receipt_data' => [
+                    'order_id' => $orderData['id'],
+                    'customer_name' => $orderData['customer_name'],
+                    'items' => $orderData['items'],
+                    'total' => $orderData['total'],
+                    'payment_method' => $orderData['payment_method'],
+                    'order_time' => $orderData['created_at']
+                ],
+                'job_name' => 'Order #' . $orderData['id']
+            ]);
 
-        $response = Http::withHeaders([
-            'X-API-Key' => $this->apiKey,
-            'Content-Type' => 'application/json'
-        ])->post($url, $data);
+            if ($response->successful()) {
+                Log::info('Print job sent successfully', ['order_id' => $orderData['id']]);
+                return true;
+            } else {
+                Log::error('Print job failed', [
+                    'order_id' => $orderData['id'],
+                    'error' => $response->body()
+                ]);
+                return false;
+            }
 
-        return $response->successful();
+        } catch (\Exception $e) {
+            Log::error('Print service error', [
+                'order_id' => $orderData['id'] ?? 'unknown',
+                'error' => $e->getMessage()
+            ]);
+            return false;
+        }
     }
 
+    /**
+     * Print simple text
+     */
+    public function printText($text, $jobName = 'HK Savor Spoon Print')
+    {
+        try {
+            $response = Http::withHeaders([
+                'X-API-Key' => $this->apiKey,
+                'Content-Type' => 'application/json'
+            ])->timeout(30)->post($this->serverUrl . '/print', [
+                'text' => $text,
+                'job_name' => $jobName
+            ]);
+
+            return $response->successful();
+
+        } catch (\Exception $e) {
+            Log::error('Print text error', ['error' => $e->getMessage()]);
+            return false;
+        }
+    }
+
+    /**
+     * Test server connection
+     */
     public function testConnection()
     {
-        $response = Http::get($this->serverUrl . '/status');
-        return $response->successful();
+        try {
+            $response = Http::timeout(10)->get($this->serverUrl . '/status');
+            return $response->successful();
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Send test print
+     */
+    public function sendTestPrint()
+    {
+        try {
+            $response = Http::withHeaders([
+                'X-API-Key' => $this->apiKey
+            ])->timeout(30)->post($this->serverUrl . '/test-print');
+
+            return $response->successful();
+
+        } catch (\Exception $e) {
+            Log::error('Test print error', ['error' => $e->getMessage()]);
+            return false;
+        }
     }
 }
 ```
 
-## 🐛 Troubleshooting
+### Controller Example
 
-### Common Issues
+```php
+<?php
 
-**"No default printer found"**
-- Connect printer and install drivers
-- Set printer as default in Windows settings
+namespace App\Http\Controllers;
 
-**"Connection refused"**
-- Check Windows Firewall settings
-- Verify port forwarding configuration
-- Confirm PC IP address
+use App\Services\PrintService;
+use Illuminate\Http\Request;
 
-**"Unauthorized" errors**
-- Verify API key matches in Laravel and Python
-- Check request headers
+class OrderController extends Controller
+{
+    private $printService;
 
-**Print jobs fail**
-- Check printer status (paper, toner)
-- Review `print_server.log` for errors
+    public function __construct(PrintService $printService)
+    {
+        $this->printService = $printService;
+    }
 
-### Log Files
-- Print server: `print_server.log`
-- Laravel: Check application logs
+    public function processOrder(Request $request)
+    {
+        // Process order logic...
+        $order = $this->createOrder($request->all());
+
+        // Print receipt
+        $printSuccess = $this->printService->printReceipt([
+            'id' => $order->id,
+            'customer_name' => $order->customer_name,
+            'items' => $order->items->map(function($item) {
+                return [
+                    'name' => $item->name,
+                    'quantity' => $item->quantity,
+                    'price' => $item->price
+                ];
+            })->toArray(),
+            'total' => $order->total,
+            'payment_method' => $order->payment_method,
+            'created_at' => $order->created_at->format('Y-m-d H:i:s')
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'order_id' => $order->id,
+            'print_status' => $printSuccess ? 'printed' : 'print_failed'
+        ]);
+    }
+}
+```
+
+## 📡 API Reference
+
+### Public Endpoints
+
+#### GET `/status`
+Get server status and information
+```bash
+curl http://localhost:5000/status
+```
+
+**Response:**
+```json
+{
+    "status": "online",
+    "server": "HK Savor Spoon Windows Print Server",
+    "version": "2.0",
+    "computer": "PC-NAME",
+    "local_ip": "192.168.1.100",
+    "default_printer": "Star TSP143III",
+    "timestamp": "2025-08-28T10:30:00"
+}
+```
+
+### Protected Endpoints (Require API Key)
+
+#### GET `/printers`
+List available printers
+```bash
+curl -H "X-API-Key: your-api-key" http://localhost:5000/printers
+```
+
+#### POST `/print`
+Print text or receipt
+```bash
+# Simple text
+curl -H "X-API-Key: your-api-key" \
+     -H "Content-Type: application/json" \
+     -d '{"text":"Hello World 你好世界","job_name":"Test"}' \
+     http://localhost:5000/print
+
+# Receipt
+curl -H "X-API-Key: your-api-key" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "receipt_data": {
+         "order_id": "ORDER001",
+         "customer_name": "张三",
+         "items": [
+           {"name": "叉烧饭", "quantity": 2, "price": 15.50}
+         ],
+         "total": "31.00",
+         "payment_method": "现金"
+       }
+     }' \
+     http://localhost:5000/print
+```
+
+#### POST `/test-print`
+Send a test print
+```bash
+curl -H "X-API-Key: your-api-key" \
+     -X POST \
+     http://localhost:5000/test-print
+```
+
+## 🧪 Testing Your Setup
+
+### Comprehensive Test Suite
+Run the built-in test suite:
+```cmd
+python test_server.py
+```
+
+### Test with External URL
+```cmd
+python test_server.py --external-url http://your-domain:5000
+```
+
+### Manual Testing Steps
+
+1. **Local Status Check**:
+   ```cmd
+   curl http://localhost:5000/status
+   ```
+
+2. **Network Status Check** (from another device):
+   ```cmd
+   curl http://YOUR-PC-IP:5000/status
+   ```
+
+3. **External Access Check**:
+   ```cmd
+   curl http://YOUR-PUBLIC-IP:5000/status
+   ```
+
+## 🚨 Troubleshooting
+
+### Common Issues & Solutions
+
+#### "Python not found"
+- **Cause**: Python not installed or not in PATH
+- **Solution**: Reinstall Python, ensure "Add to PATH" is checked
+
+#### "No default printer found"
+- **Cause**: No printer configured as default
+- **Solution**: 
+  1. Connect printer via USB
+  2. Install drivers
+  3. Set as default in Windows Settings
+
+#### "Connection refused" / "Can't connect"
+- **Cause**: Firewall blocking or server not running
+- **Solution**:
+  1. Check if server is running
+  2. Run `setup.bat` as Administrator to configure firewall
+  3. Verify IP address with `ipconfig`
+
+#### "Unauthorized" errors
+- **Cause**: API key mismatch
+- **Solution**: Verify API keys match in Laravel and Python server
+
+#### Print jobs fail silently
+- **Cause**: Printer issues or encoding problems
+- **Solution**:
+  1. Check printer status (paper, drivers)
+  2. Review `print_server.log` for errors
+  3. Try test print: `python test_server.py`
+
+#### External access not working
+- **Cause**: Port forwarding not configured
+- **Solution**:
+  1. Configure router port forwarding (port 5000)
+  2. Check public IP address
+  3. Test with: `python test_server.py --external-url http://YOUR-PUBLIC-IP:5000`
+
+#### Chinese characters not printing correctly
+- **Cause**: Encoding or printer compatibility issues
+- **Solution**:
+  1. Ensure printer supports Chinese character sets
+  2. For Star printers, characters are automatically optimized
+  3. Try different printers if issues persist
 
 ### Debug Mode
-Enable debug logging by setting `DEBUG = True` in the Python file.
+Enable detailed logging by editing `windows_print_server.py`:
+```python
+DEBUG = True
+```
 
-## 🔒 Security
+### Log Files
+- **Print Server**: `print_server.log`
+- **Laravel**: Check application logs
+- **Windows**: Event Viewer → Application Logs
+
+## 🔒 Security Best Practices
 
 1. **Change Default API Key**: Use a strong, unique key
-2. **Network Security**: Consider VPN instead of port forwarding
+2. **Network Security**: Consider VPN instead of direct port forwarding
 3. **IP Restrictions**: Limit access to known IP ranges
-4. **Regular Updates**: Keep Windows and packages updated
-5. **Monitor Logs**: Check for unauthorized access
+4. **Regular Updates**: Keep Windows and Python packages updated
+5. **Monitor Logs**: Check for unauthorized access attempts
+6. **Firewall**: Only open necessary ports
 
 ## 🔧 Maintenance
 
-- **Regular Restarts**: Restart print server weekly
-- **Log Rotation**: Archive old logs monthly
-- **IP Monitoring**: Check if public IP changed
-- **Printer Care**: Clean printer, replace consumables
+### Regular Tasks
+- **Weekly**: Restart print server to clear memory
+- **Monthly**: Archive old log files
+- **Quarterly**: Update Python packages
+- **As Needed**: Check if public IP changed
 
-## 📁 File Structure
+### Log Rotation
+```cmd
+# Archive old logs
+move print_server.log print_server_backup_%date%.log
+```
+
+### Package Updates
+```cmd
+pip install --upgrade flask flask-cors pywin32
+```
+
+## 📁 Project Structure
 
 ```
-printer_server/
+savorspoon_printer/
 ├── windows_print_server.py    # Main server application
-├── requirements.txt           # Python dependencies
-├── setup.bat                 # Automatic setup script
-├── start_server.bat          # Server startup script
-├── test_server.py            # Test suite
-├── print_server.log          # Log file (created at runtime)
-└── README.md                 # This file
+├── test_server.py            # Comprehensive test suite
+├── requirements.txt          # Python dependencies
+├── setup.bat                # Automatic setup script
+├── start_server.bat         # Server startup script
+├── README.md                # This documentation
+├── print_server.log         # Log file (created at runtime)
+└── .gitignore              # Git ignore rules
 ```
 
-## 📞 Support
+## 🆕 Version 2.0 Improvements
 
-If you encounter issues:
-1. Check troubleshooting section above
-2. Review log files for errors
+- **Cleaner Code**: Reduced complexity, better organization
+- **Enhanced Chinese Support**: Improved encoding handling
+- **Better Error Handling**: More informative error messages
+- **Comprehensive Testing**: Full test suite with Chinese character tests
+- **Simplified Configuration**: Fewer files, easier setup
+- **Improved Documentation**: Complete guide in single file
+
+## 📞 Support & Contribution
+
+### Getting Help
+1. Check this README for common solutions
+2. Review `print_server.log` for detailed errors
 3. Run `python test_server.py` for diagnostics
 4. Test each component individually
+
+### Reporting Issues
+When reporting issues, please include:
+- Windows version
+- Python version (`python --version`)
+- Printer model
+- Error messages from `print_server.log`
+- Steps to reproduce
 
 ## 📄 License
 
@@ -306,4 +512,5 @@ This project is for HK Savor Spoon internal use.
 
 ---
 
-**HK Savor Spoon** - Making restaurant operations seamless
+**HK Savor Spoon Windows Print Server v2.0**  
+*Making restaurant operations seamless with reliable, multi-language printing*
