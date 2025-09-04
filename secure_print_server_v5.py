@@ -44,9 +44,18 @@ CORS(app)
 CONFIG = {
     'API_KEY': 'hksavorspoon-secure-print-key-2025',
     'DEFAULT_PRINTER': None,
-    'PRINT_TIMEOUT': 3,
+    'PRINT_TIMEOUT': 2,  # Reduced from 3 to 2 seconds
+    'FAST_PRINT_TIMEOUT': 1,  # Ultra-fast option for simple receipts
     'LOCAL_IP': None,
     'DDNS_CONFIG': None
+}
+
+# Printer connection pool for better performance
+PRINTER_POOL = {
+    'handle': None,
+    'last_used': None,
+    'connection_timeout': 30,  # Keep connection alive for 30 seconds
+    'lock': threading.Lock()
 }
 
 # Security configuration
@@ -134,9 +143,13 @@ def security_check():
     if client_ip and ',' in client_ip:
         client_ip = client_ip.split(',')[0].strip()
     
+    # Fast path for trusted IPs - skip most security checks
+    if is_ip_allowed(client_ip):
+        return None
+    
     current_time = time.time()
     
-    # Clean up old records periodically
+    # Clean up old records periodically (only for untrusted IPs)
     if current_time % 30 < 1:  # Every ~30 seconds
         cleanup_old_records()
     
@@ -233,6 +246,49 @@ def overwrite_queue(jobs):
             for job in jobs:
                 f.write(json_module.dumps(job, ensure_ascii=False) + '\n')
 
+def get_pooled_printer_handle():
+    """Get a pooled printer handle for better performance"""
+    with PRINTER_POOL['lock']:
+        current_time = time.time()
+        
+        # Check if existing handle is still valid
+        if (PRINTER_POOL['handle'] and 
+            PRINTER_POOL['last_used'] and 
+            current_time - PRINTER_POOL['last_used'] < PRINTER_POOL['connection_timeout']):
+            
+            try:
+                # Quick validation - try to get printer info
+                win32print.GetPrinter(PRINTER_POOL['handle'], 1)
+                PRINTER_POOL['last_used'] = current_time
+                return PRINTER_POOL['handle']
+            except:
+                # Handle is stale, close it
+                try:
+                    win32print.ClosePrinter(PRINTER_POOL['handle'])
+                except:
+                    pass
+                PRINTER_POOL['handle'] = None
+        
+        # Create new connection
+        try:
+            PRINTER_POOL['handle'] = win32print.OpenPrinter(CONFIG['DEFAULT_PRINTER'])
+            PRINTER_POOL['last_used'] = current_time
+            return PRINTER_POOL['handle']
+        except Exception as e:
+            logger.error(f"Failed to open pooled printer connection: {e}")
+            return None
+
+def close_pooled_printer():
+    """Close the pooled printer connection"""
+    with PRINTER_POOL['lock']:
+        if PRINTER_POOL['handle']:
+            try:
+                win32print.ClosePrinter(PRINTER_POOL['handle'])
+            except:
+                pass
+            PRINTER_POOL['handle'] = None
+            PRINTER_POOL['last_used'] = None
+
 class AggressiveTimeoutPrinter:
     """Enhanced printer with aggressive timeout and circuit breaker integration"""
 
@@ -249,59 +305,54 @@ class AggressiveTimeoutPrinter:
         return any('\u4e00' <= c <= '\u9fff' for c in text)
 
     def _print_worker_aggressive(self, text):
-        """Aggressive print worker with multiple timeout strategies"""
+        """Optimized print worker with connection pooling and reduced latency"""
         printer_handle = None
         job_id = None
+        use_pooled = True
 
         try:
-            logger.debug(f"Opening printer: {self.printer_name}")
-            printer_handle = win32print.OpenPrinter(self.printer_name)
+            # Try to use pooled connection first
+            printer_handle = get_pooled_printer_handle()
+            if not printer_handle:
+                logger.debug("Pooled connection failed, opening new printer connection")
+                printer_handle = win32print.OpenPrinter(self.printer_name)
+                use_pooled = False
 
-            # Quick status check
-            printer_info = win32print.GetPrinter(printer_handle, 2)
-            status = printer_info.get('Status', 0)
-            logger.debug(f"Printer status: {status}")
-
-            if status not in [0, 0x00000400]:  # Ready or Printing
-                raise Exception(f"Printer not ready, status: {status}")
-
-            # Determine encoding
+            # Determine encoding upfront (faster than multiple checks)
             is_chinese = self._is_chinese_text(text)
             if is_chinese:
                 try:
                     text_bytes = text.encode('big5', errors='replace')
                     encoding = "Big5"
+                    charset_cmd = b'\x1B\x74\x0E'  # Big5 charset
                 except:
                     text_bytes = text.encode('utf-8', errors='replace')
                     encoding = "UTF-8"
+                    charset_cmd = b''
             else:
                 text_bytes = text.encode('utf-8', errors='replace')
                 encoding = "UTF-8"
+                charset_cmd = b''
 
             logger.debug(f"Using encoding: {encoding}, {len(text_bytes)} bytes")
 
             # Start document with timeout
             doc_info = ("HK Savor Spoon Print", None, "RAW")
             job_id = win32print.StartDocPrinter(printer_handle, 1, doc_info)
-            logger.debug(f"Document started, job ID: {job_id}")
 
             # Start page
             win32print.StartPagePrinter(printer_handle)
 
-            # Build minimal command set
+            # Build optimized command set (pre-calculated)
             commands = bytearray()
             commands.extend(b'\x1B\x40')  # Reset
-
-            if is_chinese and encoding == "Big5":
-                commands.extend(b'\x1B\x74\x0E')  # Big5 charset
-
+            commands.extend(charset_cmd)  # Charset if needed
             commands.extend(text_bytes)
-            commands.extend(b'\x0A\x0A')      # Line feeds
-            commands.extend(b'\x1B\x64\x02')  # Cut
+            commands.extend(b'\x0A\x0A\x1B\x64\x02')  # Line feeds + Cut
 
-            # Write in very small chunks with micro-delays
+            # Write in optimized chunks (larger chunks, fewer system calls)
+            chunk_size = 512  # Increased from 128
             total_written = 0
-            chunk_size = 128  # Smaller chunks
 
             for i in range(0, len(commands), chunk_size):
                 if self.force_stop:
@@ -311,21 +362,26 @@ class AggressiveTimeoutPrinter:
                 written = win32print.WritePrinter(printer_handle, bytes(chunk))
                 total_written += written
 
-                # Micro delay between chunks
-                time.sleep(0.001)  # 1ms
+                # Reduced delay between chunks
+                if i + chunk_size < len(commands):  # Only delay if not last chunk
+                    time.sleep(0.0005)  # 0.5ms instead of 1ms
 
             logger.debug(f"Written {total_written} bytes")
 
             # Complete job
             win32print.EndPagePrinter(printer_handle)
             win32print.EndDocPrinter(printer_handle)
-            win32print.ClosePrinter(printer_handle)
+            
+            # Only close if not using pooled connection
+            if not use_pooled:
+                win32print.ClosePrinter(printer_handle)
 
             self.print_result = {
                 'success': True,
                 'bytes_written': total_written,
                 'encoding': encoding,
-                'message': f'Print completed successfully ({total_written} bytes)'
+                'message': f'Print completed successfully ({total_written} bytes)',
+                'pooled': use_pooled
             }
 
         except Exception as e:
@@ -340,11 +396,13 @@ class AggressiveTimeoutPrinter:
                     win32print.EndDocPrinter(printer_handle)
             except:
                 pass
-            try:
-                if printer_handle:
+            
+            # Only close if not using pooled connection
+            if not use_pooled and printer_handle:
+                try:
                     win32print.ClosePrinter(printer_handle)
-            except:
-                pass
+                except:
+                    pass
 
     def print_with_aggressive_timeout(self, text):
         """Print with aggressive timeout and force termination"""
@@ -530,12 +588,13 @@ def print_text():
             return jsonify({'error': 'Missing text parameter'}), 400
 
         text = data['text']
+        fast_mode = data.get('fast', False)  # New fast mode option
         printer_name = CONFIG['DEFAULT_PRINTER']
 
         if not printer_name:
             return jsonify({'error': 'No default printer configured'}), 500
 
-        logger.info(f"📝 Print request from {client_ip} ({len(text)} chars)")
+        logger.info(f"📝 Print request from {client_ip} ({len(text)} chars, fast={fast_mode})")
 
         # Check circuit breaker
         if is_circuit_breaker_open():
@@ -545,7 +604,8 @@ def print_text():
                 'text': text,
                 'attempts': 0,
                 'timestamp': datetime.now().isoformat(),
-                'source': client_ip
+                'source': client_ip,
+                'fast': fast_mode
             }
             enqueue_print_job(job)
             return jsonify({
@@ -555,8 +615,11 @@ def print_text():
                 'job_id': job['id']
             })
 
+        # Choose timeout based on mode
+        timeout = CONFIG['FAST_PRINT_TIMEOUT'] if fast_mode else CONFIG['PRINT_TIMEOUT']
+        
         # Try immediate print
-        printer = AggressiveTimeoutPrinter(printer_name, CONFIG['PRINT_TIMEOUT'])
+        printer = AggressiveTimeoutPrinter(printer_name, timeout)
         success, message = printer.print_with_aggressive_timeout(text)
 
         if success:
@@ -565,32 +628,86 @@ def print_text():
             return jsonify({
                 'success': True,
                 'message': message,
-                'timestamp': datetime.now().isoformat()
+                'timestamp': datetime.now().isoformat(),
+                'fast_mode': fast_mode
             })
         else:
             record_print_failure()
             logger.warning(f"❌ Print failed for {client_ip}: {message}")
 
-            # Queue for retry
-            job = {
-                'id': str(uuid.uuid4()),
-                'text': text,
-                'attempts': 0,
-                'timestamp': datetime.now().isoformat(),
-                'source': client_ip
-            }
-            enqueue_print_job(job)
+            # Queue for retry (only if not in fast mode)
+            if not fast_mode:
+                job = {
+                    'id': str(uuid.uuid4()),
+                    'text': text,
+                    'attempts': 0,
+                    'timestamp': datetime.now().isoformat(),
+                    'source': client_ip,
+                    'fast': False
+                }
+                enqueue_print_job(job)
 
-            return jsonify({
-                'success': True,
-                'message': 'Print job queued for retry',
-                'queued': True,
-                'job_id': job['id'],
-                'retry_reason': message
-            })
+                return jsonify({
+                    'success': True,
+                    'message': 'Print job queued for retry',
+                    'queued': True,
+                    'job_id': job['id'],
+                    'retry_reason': message
+                })
+            else:
+                # Fast mode - don't queue, return error immediately
+                return jsonify({
+                    'success': False,
+                    'message': f'Fast print failed: {message}',
+                    'fast_mode': True
+                }), 500
 
     except Exception as e:
         logger.error(f"Print endpoint error from {client_ip}: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/fast-print', methods=['POST'])
+def fast_print_text():
+    """Ultra-fast print endpoint with minimal overhead"""
+    client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+    
+    # Fast path - skip detailed IP checks for known IPs
+    if not is_ip_allowed(client_ip):
+        return jsonify({'error': 'Access denied'}), 403
+    
+    # Check API key
+    api_key = request.headers.get('X-API-Key')
+    if api_key != CONFIG['API_KEY']:
+        return jsonify({'error': 'Invalid API key'}), 401
+
+    try:
+        data = request.get_json()
+        if not data or 'text' not in data:
+            return jsonify({'error': 'Missing text parameter'}), 400
+
+        text = data['text']
+        printer_name = CONFIG['DEFAULT_PRINTER']
+
+        if not printer_name:
+            return jsonify({'error': 'No default printer configured'}), 500
+
+        # Skip circuit breaker for ultra-fast prints
+        printer = AggressiveTimeoutPrinter(printer_name, CONFIG['FAST_PRINT_TIMEOUT'])
+        success, message = printer.print_with_aggressive_timeout(text)
+
+        if success:
+            return jsonify({
+                'success': True,
+                'message': message,
+                'mode': 'ultra-fast'
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'message': f'Fast print failed: {message}'
+            }), 500
+
+    except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 @app.route('/queue', methods=['GET'])
@@ -702,9 +819,15 @@ def init_system():
 
 if __name__ == '__main__':
     print("=" * 70)
-    print("HK SAVOR SPOON SECURE PRINT SERVER v5.0")
+    print("HK SAVOR SPOON SECURE PRINT SERVER v5.0 - PERFORMANCE OPTIMIZED")
     print("=" * 70)
-    print(f"Security Features:")
+    print(f"🚀 Performance Features:")
+    print(f"  ⚡ Connection Pooling")
+    print(f"  🏃 Fast Print Mode (1s timeout)")
+    print(f"  📡 Optimized Security Middleware")
+    print(f"  🔧 Reduced Latency (0.5ms chunk delays)")
+    print("")
+    print(f"🛡️  Security Features:")
     print(f"  🛡️  IP Whitelisting & Rate Limiting")
     print(f"  🚫 Suspicious Request Blocking") 
     print(f"  📊 Security Monitoring")
@@ -712,10 +835,12 @@ if __name__ == '__main__':
     print("")
     print(f"Printer: {CONFIG.get('DEFAULT_PRINTER', 'Not detected')}")
     print(f"API Key: {CONFIG['API_KEY'][:10]}...")
+    print(f"Print Timeout: {CONFIG['PRINT_TIMEOUT']}s (normal), {CONFIG['FAST_PRINT_TIMEOUT']}s (fast)")
     print("")
     print("Available Endpoints:")
     print("  GET  /status          - Server status")
     print("  POST /print           - Print text (requires API key)")
+    print("  POST /fast-print      - ⚡ Ultra-fast print (trusted IPs only)")
     print("  GET  /queue           - Queue status (requires API key)")
     print("  POST /emergency-clear - Clear queue (requires API key)")
     print("  GET  /security-status - Security info (requires API key)")
@@ -723,6 +848,7 @@ if __name__ == '__main__':
     print("🛡️  ENHANCED SECURITY ACTIVE")
     print("🔄 CIRCUIT BREAKER PROTECTION ACTIVE")
     print("📦 BACKGROUND RETRY QUEUE ACTIVE")
+    print("⚡ PERFORMANCE OPTIMIZATIONS ACTIVE")
     print("Press Ctrl+C to stop the server")
     print("=" * 70)
 
@@ -734,4 +860,6 @@ if __name__ == '__main__':
         app.run(host='0.0.0.0', port=8080, debug=False, threaded=True)
     except KeyboardInterrupt:
         print("\n\n🛑 Server stopped by user")
+        # Clean up pooled printer connection
+        close_pooled_printer()
         sys.exit(0)
