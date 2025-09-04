@@ -21,7 +21,7 @@ import win32api
 
 # Configuration
 API_KEY = "hksavorspoon-secure-print-key-2025"  # Change this to a secure key
-PORT = 5000
+PORT = 8080
 DEBUG = False
 
 # Setup logging
@@ -68,7 +68,7 @@ def get_ddns_info():
     """Get DDNS configuration info"""
     try:
         import json
-        with open('ddns_config.json', 'r', encoding='utf-8') as f:
+        with open('ddns_config.json', 'r', encoding='utf-8-sig') as f:
             config = json.load(f)
             if config.get('enabled'):
                 return {
@@ -225,6 +225,8 @@ def _print_to_star_printer(text, job_name, printer_name):
     
     # Try each encoding strategy
     for strategy in encoding_strategies:
+        printer_handle = None
+        job_id = None
         try:
             logger.info(f"Trying encoding strategy: {strategy['name']}")
             
@@ -235,52 +237,80 @@ def _print_to_star_printer(text, job_name, printer_name):
                 logger.warning(f"Encoding {strategy['encoding']} cannot handle text: {ue}")
                 continue
             
-            # Open printer and send job
-            printer_handle = win32print.OpenPrinter(printer_name)
-            doc_info = (job_name, None, "RAW")
-            job_id = win32print.StartDocPrinter(printer_handle, 1, doc_info)
-            win32print.StartPagePrinter(printer_handle)
-            
-            # Prepare print commands
-            commands = bytearray()
-            
-            # Initialize printer and set character set
-            commands.extend(strategy['charset_cmd'])
-            
-            # Set font mode if available
-            if 'font_cmd' in strategy:
-                commands.extend(strategy['font_cmd'])
-            
-            # Set text formatting
-            commands.extend(b'\x1B\x61\x00')         # Left align
-            commands.extend(b'\x1D\x21\x11')         # Double width and height
-            
-            # Add the encoded text
-            commands.extend(test_encoded)
-            
-            # Add formatting and cut
-            commands.extend(b'\x0A\x0A\x0A')         # Line feeds
-            commands.extend(b'\x1B\x64\x03')         # Cut paper
-            
-            # Send to printer
-            win32print.WritePrinter(printer_handle, bytes(commands))
-            
-            # Cleanup
-            win32print.EndPagePrinter(printer_handle)
-            win32print.EndDocPrinter(printer_handle)
-            win32print.ClosePrinter(printer_handle)
-            
-            logger.info(f"Print successful using {strategy['name']} encoding")
-            return True, f"Print job sent to {printer_name} ({strategy['name']})"
-            
-        except Exception as e:
-            logger.warning(f"Strategy {strategy['name']} failed: {e}")
+            # Open printer with timeout handling
             try:
+                printer_handle = win32print.OpenPrinter(printer_name)
+                logger.info(f"Printer opened successfully: {printer_name}")
+            except Exception as pe:
+                logger.error(f"Failed to open printer {printer_name}: {pe}")
+                continue
+            
+            try:
+                doc_info = (job_name, None, "RAW")
+                job_id = win32print.StartDocPrinter(printer_handle, 1, doc_info)
+                logger.info(f"Document started with job ID: {job_id}")
+                
+                win32print.StartPagePrinter(printer_handle)
+                logger.info("Page started successfully")
+                
+                # Prepare print commands
+                commands = bytearray()
+                
+                # Initialize printer and set character set
+                commands.extend(strategy['charset_cmd'])
+                
+                # Set font mode if available
+                if 'font_cmd' in strategy:
+                    commands.extend(strategy['font_cmd'])
+                
+                # Set text formatting
+                commands.extend(b'\x1B\x61\x00')         # Left align
+                commands.extend(b'\x1D\x21\x11')         # Double width and height
+                
+                # Add the encoded text
+                commands.extend(test_encoded)
+                
+                # Add formatting and cut
+                commands.extend(b'\x0A\x0A\x0A')         # Line feeds
+                commands.extend(b'\x1B\x64\x03')         # Cut paper
+                
+                # Send to printer
+                logger.info(f"Sending {len(commands)} bytes to printer...")
+                bytes_written = win32print.WritePrinter(printer_handle, bytes(commands))
+                logger.info(f"Successfully wrote {bytes_written} bytes to printer")
+                
+                # Cleanup
                 win32print.EndPagePrinter(printer_handle)
                 win32print.EndDocPrinter(printer_handle)
                 win32print.ClosePrinter(printer_handle)
-            except:
-                pass
+                
+                logger.info(f"Print successful using {strategy['name']} encoding")
+                return True, f"Print job sent to {printer_name} ({strategy['name']})"
+                
+            except Exception as print_error:
+                logger.error(f"Print operation failed: {print_error}")
+                # Cleanup on error
+                try:
+                    if job_id:
+                        win32print.EndPagePrinter(printer_handle)
+                        win32print.EndDocPrinter(printer_handle)
+                    if printer_handle:
+                        win32print.ClosePrinter(printer_handle)
+                except Exception as cleanup_error:
+                    logger.error(f"Cleanup failed: {cleanup_error}")
+                continue
+                
+        except Exception as e:
+            logger.warning(f"Strategy {strategy['name']} failed: {e}")
+            # Cleanup on error
+            try:
+                if job_id and printer_handle:
+                    win32print.EndPagePrinter(printer_handle)
+                    win32print.EndDocPrinter(printer_handle)
+                if printer_handle:
+                    win32print.ClosePrinter(printer_handle)
+            except Exception as cleanup_error:
+                logger.error(f"Final cleanup failed: {cleanup_error}")
             continue
     
     # If all strategies failed
@@ -631,10 +661,12 @@ def display_startup_info():
     if ddns_info:
         print(f"DDNS Domain: {ddns_info['domain']}")
         print(f"DDNS Provider: {ddns_info['provider']}")
-        print(f"External Access: http://{ddns_info['domain']}:5000")
+        print(f"External Access: http://{ddns_info['domain']}:{PORT}")
         print(f"Last DDNS Update: {ddns_info.get('last_update', 'Never')}")
     else:
-        print("DDNS: Not configured (run ddns_helper.py to setup)")
+        print("DDNS: savorspoon-printer.myddns.me (NoIP)")
+        print(f"External Access: http://savorspoon-printer.myddns.me:{PORT}")
+        print("DDNS Status: Download NoIP client from noip.com")
     
     print(f"API Key: {API_KEY[:10]}...")
     print(f"Server URL: http://0.0.0.0:{PORT}")
@@ -655,7 +687,7 @@ def display_startup_info():
         print("Select your printer and set as default.")
     
     print()
-
+ 
 if __name__ == '__main__':
     try:
         display_startup_info()

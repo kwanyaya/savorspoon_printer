@@ -1,9 +1,11 @@
-{
-  "service_provider": "duckdns",
-  "domain_name": "savorspoon-printer.duckdns.org",
+﻿{
+  "service_provider": "noip",
+  "domain_name": "savorspoon-printer.ddns.net",
   "username": "",
-  "password": "a1a90296-0190-45dd-a991-a5e35ec3dfcf",
-  "update_interval": 300,
-  "last_update": "2025-08-29T00:59:53.291399",
-  "enabled": true
+  "password": "",
+  "update_interval": 1800,
+  "last_update": "",
+  "enabled": true,
+  "api_key": "hksavorspoon",
+  "emergency_note": "Migrated from DuckDNS to NoIP for better reliability. API key updated for client compatibility."
 }

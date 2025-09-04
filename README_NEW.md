@@ -1,6 +1,4 @@
-# HK Savor Spoon Print Server v5.0 - Enhanced Security
-
-🛡️ **SECURITY UPDATE**: Addresses malicious traffic and server reliability issues
+# HK Savor Spoon Print Server
 
 Windows thermal printer server for HK Savor Spoon restaurant order system.
 
@@ -17,26 +15,19 @@ Windows thermal printer server for HK Savor Spoon restaurant order system.
 # Install dependencies
 pip install -r requirements.txt
 
-# Start secure server (recommended)
-python secure_print_server_v5.py
+# Start server
+python robust_print_server_v4.py
 ```
 
 ### Alternative Management (PowerShell)
 ```powershell
-# Start secure server (default)
+# Start server
 .\server.ps1 start
 
-# Start with specific version
-.\server.ps1 start -secure   # v5.0 security enhanced
-.\server.ps1 start -v4       # v4.0 robust version
-.\server.ps1 start -v2       # v2.0 basic version
-
-# Check status and security
+# Check status
 .\server.ps1 status
-.\server.ps1 security
 
-# Run security monitor
-python security_monitor.py
+# Run tests
 .\server.ps1 test
 
 # Stop server
@@ -46,57 +37,18 @@ python security_monitor.py
 ## 📋 Project Structure
 
 ### Essential Files
-- `secure_print_server_v5.py` - **🛡️ SECURE production server** (Enhanced Security + Circuit Breaker)
-- `robust_print_server_v4.py` - Robust server with circuit breaker protection  
+- `robust_print_server_v4.py` - **Main production server** (Circuit Breaker + Retry Queue)
 - `windows_print_server.py` - Alternative v2.0 server
-- `security_monitor.py` - **NEW**: Real-time security monitoring dashboard
 - `requirements.txt` - Python dependencies
 - `ddns_config.json` - DDNS configuration
-- `server.ps1` - Enhanced server management script
+- `server.ps1` - Server management script
 
 ### Utilities
 - `printer_test_suite.py` - Comprehensive testing and diagnostics
 - `cleanup_project.py` - Project cleanup utility
 
-### Configuration & Logs
+### Configuration
 - `print_queue.jsonl` - Persistent print queue
-- `print_server_secure.log` - **NEW**: Security event logging
-
-## 🛡️ SECURITY FEATURES (v5.0)
-
-### Built-in Protection
-- **IP Whitelisting**: Only allow trusted networks and specific IPs
-- **Rate Limiting**: Max 10 requests/minute for non-whitelisted IPs  
-- **Suspicious Request Detection**: Auto-detect and block attack patterns:
-  - SSH connection attempts (`ssh-`, `connect`)
-  - Admin login probes (`login`, `admin`, `manager/`)
-  - Path traversal attacks (`.env`, `cgi-bin`)
-  - Malformed requests and unusual HTTP methods
-
-### Security Monitoring
-```powershell
-# Real-time security dashboard
-python security_monitor.py
-
-# Security status via PowerShell
-.\server.ps1 security
-
-# View security logs
-Get-Content print_server_secure.log -Tail 20
-```
-
-### Allowed IP Ranges (Configurable)
-- `192.168.0.0/16` - Local restaurant network
-- `10.0.0.0/8` - Private networks
-- `172.16.0.0/12` - Private networks  
-- `127.0.0.0/8` - Localhost
-- Specific external IPs (e.g., your website server)
-
-### Security Actions
-- **Rate Limiting**: Slow down non-whitelisted IPs
-- **Automatic Blocking**: Block IPs after 5 suspicious requests for 5 minutes
-- **Request Filtering**: Return 404 for suspicious paths (hide real endpoints)
-- **Request Size Limits**: Reject requests larger than 1MB
 - `print_server.log` - Server logs
 - `print_server_debug.log` - Debug logs
 
