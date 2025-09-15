@@ -1,8 +1,8 @@
-# HK Savor Spoon Print Server v5.0 - Enhanced Security
+# HK Savor Spoon Print Server v6.0 - Auto-Recovery Edition
 
-🛡️ **SECURITY UPDATE**: Addresses malicious traffic and server reliability issues
+� **AUTO-RECOVERY UPDATE**: Automatically handles printer offline issues and Windows spooler problems
 
-Windows thermal printer server for HK Savor Spoon restaurant order system.
+Windows thermal printer server for HK Savor Spoon restaurant order system with intelligent printer recovery.
 
 ## 🚀 Quick Start
 
@@ -11,13 +11,33 @@ Windows thermal printer server for HK Savor Spoon restaurant order system.
 - Python 3.7+
 - Star TSP100 thermal printer (USB connected)
 - Star printer driver installed
+- **Administrator privileges** (required for auto-recovery features)
 
-### Installation
+### Option 1: Auto-Recovery Server (Recommended) 🚑
+
+**Best for production use** - automatically handles printer offline issues and spooler problems:
+
 ```bash
 # Install dependencies
 pip install -r requirements.txt
 
-# Start secure server (recommended)
+# Run as Administrator (IMPORTANT!)
+Right-click -> "Run as Administrator"
+start_auto_recovery_server.bat
+
+# Test auto-recovery features
+python test_auto_recovery.py
+```
+
+### Option 2: Standard Secure Server
+
+For basic functionality without auto-recovery:
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Start secure server
 python secure_print_server_v5.py
 ```
 
@@ -43,12 +63,51 @@ python security_monitor.py
 .\server.ps1 stop
 ```
 
-## 📋 Project Structure
+## � Auto-Recovery Features (v6.0)
+
+### What Problems Does Auto-Recovery Solve?
+
+1. **Printer Offline Issues** 🔴
+   - Automatically detects when printer goes offline
+   - Attempts to bring printer back online
+   - Restarts printer connections
+
+2. **Windows Print Spooler Problems** 🔄
+   - Monitors Print Spooler service health
+   - Automatically restarts spooler when hung
+   - Clears stuck print jobs from queue
+
+3. **Connection Timeouts** ⏱️
+   - Handles printer connection timeouts
+   - Retries with fresh connections
+   - Prevents permanent connection loss
+
+4. **Print Job Blockages** 📄
+   - Detects stuck print jobs
+   - Clears print queue automatically
+   - Prevents job accumulation
+
+### How It Works
+- **Continuous Monitoring**: Checks printer health every 30 seconds
+- **Smart Recovery**: Tries multiple recovery strategies automatically
+- **Minimal Downtime**: Most issues resolved in 5-15 seconds
+- **Administrator Required**: Needs admin privileges for service management
+
+### New API Endpoints
+- `GET /recovery/status` - Detailed recovery statistics
+- `POST /recovery/trigger` - Manual recovery trigger
+- `POST /recovery/config` - Update recovery settings
+- `POST /emergency-clear` - Full system reset & clear
+
+📖 **[Read the full Auto-Recovery Guide →](AUTO_RECOVERY_GUIDE.md)**
+
+## �📋 Project Structure
 
 ### Essential Files
-- `secure_print_server_v5.py` - **🛡️ SECURE production server** (Enhanced Security + Circuit Breaker)
-- `robust_print_server_v4.py` - Robust server with circuit breaker protection  
-- `windows_print_server.py` - Alternative v2.0 server
+- `auto_recovery_print_server.py` - **🚑 AUTO-RECOVERY production server** (v6.0 - Handles printer offline & spooler issues)
+- `secure_print_server_v5.py` - **🛡️ SECURE server** (v5.0 - Enhanced Security + Circuit Breaker)
+- `robust_print_server_v4.py` - Robust server with circuit breaker protection (v4.0)
+- `windows_print_server.py` - Alternative basic server (v2.0)
 - `security_monitor.py` - **NEW**: Real-time security monitoring dashboard
 - `requirements.txt` - Python dependencies
 - `ddns_config.json` - DDNS configuration
