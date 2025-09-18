@@ -55,6 +55,8 @@ CONFIG = {
     'RECOVERY_MAX_RETRIES': 3,
     'PRINTER_CHECK_INTERVAL': 30,  # Check printer every 30 seconds
     'SPOOLER_RESTART_COOLDOWN': 60,  # Wait 60s between spooler restarts
+    'FONT_SIZE': 'normal',  # Font size: 'small', 'normal', 'large', 'xlarge', 'double'
+    'FONT_BOLD': False,  # Enable bold font
 }
 
 # Printer recovery state
@@ -505,6 +507,39 @@ class AutoRecoveryPrinter:
         """Check if text contains Chinese characters"""
         return any('\u4e00' <= c <= '\u9fff' for c in text)
 
+    def _get_font_commands(self, font_size=None, bold=None):
+        """Generate font control commands for Star TSP100 printer"""
+        commands = bytearray()
+        
+        # Use global config if not specified
+        if font_size is None:
+            font_size = CONFIG.get('FONT_SIZE', 'normal')
+        if bold is None:
+            bold = CONFIG.get('FONT_BOLD', False)
+        
+        # Font size commands for Star TSP100
+        font_commands = {
+            'small': b'\x1B\x21\x01',      # Small font (12x24 dots)
+            'normal': b'\x1B\x21\x00',     # Normal font (12x24 dots) - default
+            'large': b'\x1B\x21\x10',      # Large font (24x48 dots) - width doubled
+            'xlarge': b'\x1B\x21\x20',     # Extra large font (24x48 dots) - height doubled  
+            'double': b'\x1B\x21\x30',     # Double size (24x48 dots) - both width & height doubled
+        }
+        
+        # Set font size
+        if font_size in font_commands:
+            commands.extend(font_commands[font_size])
+        else:
+            commands.extend(font_commands['normal'])  # Default to normal
+        
+        # Bold on/off commands
+        if bold:
+            commands.extend(b'\x1B\x45\x01')  # Bold ON
+        else:
+            commands.extend(b'\x1B\x45\x00')  # Bold OFF
+        
+        return commands
+
     def _print_worker_with_recovery(self, text):
         """Print worker with automatic recovery on failure"""
         printer_handle = None
@@ -545,8 +580,9 @@ class AutoRecoveryPrinter:
 
             # Build and send commands
             commands = bytearray()
-            commands.extend(b'\x1B\x40')  # Reset
+            commands.extend(b'\x1B\x40')  # Reset printer
             commands.extend(charset_cmd)  # Charset if needed
+            commands.extend(self._get_font_commands(self.font_size, self.font_bold))  # Font size and bold settings
             commands.extend(text_bytes)
             commands.extend(b'\x0A\x0A\x1B\x64\x02')  # Line feeds + Cut
 
@@ -623,11 +659,13 @@ class AutoRecoveryPrinter:
             except:
                 pass
 
-    def print_with_auto_recovery(self, text):
+    def print_with_auto_recovery(self, text, font_size=None, font_bold=None):
         """Print with automatic recovery on failure"""
         self.print_result = None
         self.print_error = None
         self.force_stop = False
+        self.font_size = font_size
+        self.font_bold = font_bold
 
         # Create worker thread
         self.worker_thread = threading.Thread(
@@ -819,6 +857,10 @@ def status():
         'printer': CONFIG['DEFAULT_PRINTER'],
         'printer_status': printer_status,
         'auto_recovery': CONFIG['AUTO_RECOVERY'],
+        'font_config': {
+            'font_size': CONFIG['FONT_SIZE'],
+            'font_bold': CONFIG['FONT_BOLD']
+        },
         'recovery_stats': {
             'spooler_restarts': RECOVERY_STATE['spooler_restart_count'],
             'offline_detections': RECOVERY_STATE['printer_offline_count'],
@@ -850,6 +892,8 @@ def print_text():
 
         text = data['text']
         fast_mode = data.get('fast', False)
+        font_size = data.get('font_size', CONFIG['FONT_SIZE'])  # Allow per-request font size
+        font_bold = data.get('font_bold', CONFIG['FONT_BOLD'])  # Allow per-request bold setting
         printer_name = CONFIG['DEFAULT_PRINTER']
 
         if not printer_name:
@@ -881,7 +925,7 @@ def print_text():
         
         # Try immediate print with auto-recovery
         printer = AutoRecoveryPrinter(printer_name, timeout)
-        success, message = printer.print_with_auto_recovery(text)
+        success, message = printer.print_with_auto_recovery(text, font_size, font_bold)
 
         if success:
             record_print_success()
@@ -1009,6 +1053,68 @@ def update_recovery_config():
         logger.error(f"Config update error: {e}")
         return jsonify({'error': str(e)}), 500
 
+@app.route('/font/config', methods=['POST'])
+def update_font_config():
+    """Update font configuration"""
+    api_key = request.headers.get('X-API-Key')
+    if api_key != CONFIG['API_KEY']:
+        return jsonify({'error': 'Invalid API key'}), 401
+
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'No configuration data provided'}), 400
+
+        valid_font_sizes = ['small', 'normal', 'large', 'xlarge', 'double']
+        
+        if 'font_size' in data:
+            font_size = data['font_size'].lower()
+            if font_size in valid_font_sizes:
+                CONFIG['FONT_SIZE'] = font_size
+                logger.info(f"Font size set to: {font_size}")
+            else:
+                return jsonify({
+                    'error': f'Invalid font size. Valid options: {valid_font_sizes}'
+                }), 400
+
+        if 'font_bold' in data:
+            CONFIG['FONT_BOLD'] = bool(data['font_bold'])
+            logger.info(f"Font bold {'enabled' if CONFIG['FONT_BOLD'] else 'disabled'}")
+
+        return jsonify({
+            'success': True,
+            'message': 'Font configuration updated',
+            'config': {
+                'font_size': CONFIG['FONT_SIZE'],
+                'font_bold': CONFIG['FONT_BOLD'],
+                'valid_font_sizes': valid_font_sizes
+            }
+        })
+
+    except Exception as e:
+        logger.error(f"Font config update error: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/font/config', methods=['GET'])
+def get_font_config():
+    """Get current font configuration"""
+    api_key = request.headers.get('X-API-Key')
+    if api_key != CONFIG['API_KEY']:
+        return jsonify({'error': 'Invalid API key'}), 401
+
+    return jsonify({
+        'font_size': CONFIG['FONT_SIZE'],
+        'font_bold': CONFIG['FONT_BOLD'],
+        'valid_font_sizes': ['small', 'normal', 'large', 'xlarge', 'double'],
+        'font_descriptions': {
+            'small': 'Small font (12x24 dots)',
+            'normal': 'Normal font (12x24 dots) - default',
+            'large': 'Large font - width doubled',
+            'xlarge': 'Extra large font - height doubled',
+            'double': 'Double size - both width & height doubled'
+        }
+    })
+
 # Queue and emergency endpoints (same as v5)
 @app.route('/queue', methods=['GET'])
 def get_queue_status():
@@ -1123,16 +1229,19 @@ if __name__ == '__main__':
     print(f"  Auto-Recovery: {'✅ ENABLED' if CONFIG['AUTO_RECOVERY'] else '❌ DISABLED'}")
     print(f"  Health Check Interval: {CONFIG['PRINTER_CHECK_INTERVAL']}s")
     print(f"  Print Timeout: {CONFIG['PRINT_TIMEOUT']}s (normal), {CONFIG['FAST_PRINT_TIMEOUT']}s (fast)")
+    print(f"  Font Size: {CONFIG['FONT_SIZE'].upper()} {'+ BOLD' if CONFIG['FONT_BOLD'] else ''}")
     print(f"  API Key: {CONFIG['API_KEY'][:10]}...")
     print("")
     print("📡 AVAILABLE ENDPOINTS:")
     print("  GET  /status                - Server & printer status")
-    print("  POST /print                 - Print with auto-recovery")
+    print("  POST /print                 - Print with auto-recovery (supports font_size, font_bold)")
     print("  GET  /queue                 - Queue status")
     print("  POST /emergency-clear       - Emergency reset & clear")
     print("  POST /recovery/trigger      - Manual recovery trigger")
     print("  GET  /recovery/status       - Recovery statistics")
     print("  POST /recovery/config       - Update recovery settings")
+    print("  GET  /font/config           - Get font settings")
+    print("  POST /font/config           - Update font settings")
     print("")
     print("🚑 AUTO-RECOVERY ACTIVE - Monitoring printer health...")
     print("🔄 CIRCUIT BREAKER PROTECTION ACTIVE")
