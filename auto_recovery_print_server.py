@@ -20,6 +20,8 @@ import pathlib
 import subprocess
 import os
 import psutil
+import socket
+import struct
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import logging
@@ -57,6 +59,9 @@ CONFIG = {
     'SPOOLER_RESTART_COOLDOWN': 60,  # Wait 60s between spooler restarts
     'FONT_SIZE': 'normal',  # Font size: 'small', 'normal', 'large', 'xlarge', 'double'
     'FONT_BOLD': False,  # Enable bold font
+    'NETWORK_PRINTER_IP': None,  # For network printer via LAN
+    'NETWORK_PRINTER_PORT': 9100,  # Standard raw printing port
+    'PREFER_NETWORK': False  # Set to True to prefer network over USB
 }
 
 # Printer recovery state
@@ -301,6 +306,112 @@ def get_printer_status(printer_name):
         logger.error(f"Error getting printer status for {printer_name}: {e}")
         return {'online': False, 'error': True, 'error_message': str(e)}
 
+def test_network_printer_connection(ip, port=9100):
+    """Test if network printer is reachable"""
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(3)  # 3 second timeout
+        result = sock.connect_ex((ip, port))
+        sock.close()
+        return result == 0
+    except Exception as e:
+        logger.debug(f"Network printer test failed for {ip}:{port} - {e}")
+        return False
+
+def print_to_network_printer(text, ip, port=9100):
+    """Print directly to network printer via raw TCP"""
+    try:
+        logger.info(f"🌐 Printing to network printer {ip}:{port}")
+        
+        # Determine encoding
+        is_chinese = any('\u4e00' <= char <= '\u9fff' for char in text)
+        if is_chinese:
+            try:
+                text_bytes = text.encode('big5', errors='replace')
+                encoding = "Big5"
+                charset_cmd = b'\x1B\x74\x0E'  # Big5 charset
+            except:
+                text_bytes = text.encode('utf-8', errors='replace')
+                encoding = "UTF-8"
+                charset_cmd = b''
+        else:
+            text_bytes = text.encode('utf-8', errors='replace')
+            encoding = "UTF-8"
+            charset_cmd = b''
+
+        # Build ESC/POS command set
+        commands = bytearray()
+        commands.extend(b'\x1B\x40')  # Reset
+        commands.extend(charset_cmd)  # Charset if needed
+        commands.extend(text_bytes)
+        commands.extend(b'\x0A\x0A')      # Line feeds
+        commands.extend(b'\x1B\x64\x02')  # Cut
+
+        # Send to network printer
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(CONFIG['PRINT_TIMEOUT'])
+        sock.connect((ip, port))
+        
+        total_sent = 0
+        while total_sent < len(commands):
+            sent = sock.send(commands[total_sent:])
+            if sent == 0:
+                raise Exception("Network connection broken")
+            total_sent += sent
+        
+        sock.close()
+        
+        logger.info(f"✅ Network print successful: {total_sent} bytes sent to {ip}:{port}")
+        return True, f"Network print successful ({total_sent} bytes, {encoding})"
+        
+    except Exception as e:
+        error_msg = f"Network print failed: {str(e)}"
+        logger.error(f"❌ {error_msg}")
+        return False, error_msg
+
+def discover_network_printers():
+    """Scan for network printers on common ports"""
+    logger.info("🔍 Scanning for network printers...")
+    found_printers = []
+    
+    # Get local network range
+    try:
+        import socket
+        hostname = socket.gethostname()
+        local_ip = socket.gethostbyname(hostname)
+        
+        # Extract network portion (assumes /24 subnet)
+        ip_parts = local_ip.split('.')
+        network_base = f"{ip_parts[0]}.{ip_parts[1]}.{ip_parts[2]}"
+        
+        # Common printer IP ranges to check
+        ip_ranges = [
+            f"{network_base}.100",  # Common printer IP
+            f"{network_base}.101",
+            f"{network_base}.200",
+            f"{network_base}.201",
+        ]
+        
+        # Common printer ports
+        ports = [9100, 515, 631]  # Raw, LPR, IPP
+        
+        for ip in ip_ranges:
+            for port in ports:
+                if test_network_printer_connection(ip, port):
+                    found_printers.append(f"{ip}:{port}")
+                    logger.info(f"✅ Found potential network printer at {ip}:{port}")
+        
+        if found_printers:
+            logger.info(f"🖨️  Found {len(found_printers)} network printer(s): {found_printers}")
+        else:
+            logger.info("🔍 No network printers found on scan")
+            
+        return found_printers
+        
+    except Exception as e:
+        logger.error(f"Network printer discovery failed: {e}")
+        return []
+
 def attempt_printer_recovery(printer_name):
     """Attempt to recover an offline or problematic printer"""
     with RECOVERY_STATE['lock']:
@@ -541,7 +652,32 @@ class AutoRecoveryPrinter:
         return commands
 
     def _print_worker_with_recovery(self, text):
-        """Print worker with automatic recovery on failure"""
+        """Print worker with automatic recovery and network printer support"""
+        
+        # Try network printer first if configured and preferred
+        if CONFIG.get('PREFER_NETWORK') and CONFIG.get('NETWORK_PRINTER_IP'):
+            logger.info("🌐 Attempting network print first (preferred)")
+            success, message = print_to_network_printer(
+                text, 
+                CONFIG['NETWORK_PRINTER_IP'], 
+                CONFIG.get('NETWORK_PRINTER_PORT', 9100)
+            )
+            if success:
+                self.print_result = {
+                    'success': True,
+                    'message': message,
+                    'method': 'network',
+                    'encoding': 'Big5' if self._is_chinese_text(text) else 'UTF-8'
+                }
+                return
+            else:
+                logger.warning(f"🌐 Network print failed, falling back to USB: {message}")
+        
+        # Fall back to USB printing
+        self._print_usb_with_recovery(text)
+    
+    def _print_usb_with_recovery(self, text):
+        """USB print worker with automatic recovery on failure"""
         printer_handle = None
         job_id = None
         use_pooled = True
@@ -551,6 +687,23 @@ class AutoRecoveryPrinter:
             # Try to get printer handle with recovery
             printer_handle = get_pooled_printer_handle()
             if not printer_handle:
+                # If USB fails and network is available, try network as backup
+                if CONFIG.get('NETWORK_PRINTER_IP') and not CONFIG.get('PREFER_NETWORK'):
+                    logger.warning("🔄 USB failed, trying network printer as backup")
+                    success, message = print_to_network_printer(
+                        text, 
+                        CONFIG['NETWORK_PRINTER_IP'], 
+                        CONFIG.get('NETWORK_PRINTER_PORT', 9100)
+                    )
+                    if success:
+                        self.print_result = {
+                            'success': True,
+                            'message': f"USB failed, succeeded via network: {message}",
+                            'method': 'network_fallback',
+                            'encoding': 'Big5' if self._is_chinese_text(text) else 'UTF-8'
+                        }
+                        return
+                
                 logger.warning("❌ Could not get printer handle even after recovery attempt")
                 self.print_error = "Printer connection failed after recovery attempt"
                 return
@@ -1177,7 +1330,26 @@ def emergency_clear():
 def init_system():
     """Initialize the system and start background workers."""
     try:
-        # Detect default printer
+        # Check for network printers first
+        logger.info("🔍 Scanning for network printers...")
+        network_printers = discover_network_printers()
+        
+        if network_printers:
+            # Set first found network printer
+            first_printer = network_printers[0]
+            ip, port = first_printer.split(':')
+            CONFIG['NETWORK_PRINTER_IP'] = ip
+            CONFIG['NETWORK_PRINTER_PORT'] = int(port)
+            logger.info(f"🌐 Network printer configured: {ip}:{port}")
+            
+            # Test network printer
+            if test_network_printer_connection(ip, int(port)):
+                logger.info(f"✅ Network printer {ip}:{port} is reachable")
+                CONFIG['PREFER_NETWORK'] = True  # Auto-prefer network if working
+            else:
+                logger.warning(f"⚠️  Network printer {ip}:{port} not responding")
+        
+        # Detect USB/local printer
         printers = win32print.EnumPrinters(2)
         default_printer = None
         
@@ -1191,6 +1363,16 @@ def init_system():
             default_printer = printers[0][2]
         
         CONFIG['DEFAULT_PRINTER'] = default_printer
+        
+        # Log printer configuration
+        if CONFIG.get('NETWORK_PRINTER_IP'):
+            logger.info(f"🖨️  Hybrid setup: USB={default_printer}, Network={CONFIG['NETWORK_PRINTER_IP']}:{CONFIG['NETWORK_PRINTER_PORT']}")
+            if CONFIG.get('PREFER_NETWORK'):
+                logger.info("🌐 Network printer preferred (auto-detected as working)")
+            else:
+                logger.info("🔌 USB printer preferred (network available as backup)")
+        else:
+            logger.info(f"🔌 USB-only setup: {default_printer}")
         
         # Start queue worker
         queue_thread = threading.Thread(target=queue_worker_loop, daemon=True)
@@ -1209,7 +1391,7 @@ def init_system():
 
 if __name__ == '__main__':
     print("=" * 80)
-    print("HK SAVOR SPOON AUTO-RECOVERY PRINT SERVER v6.0")
+    print("HK SAVOR SPOON AUTO-RECOVERY PRINT SERVER v6.0 - NETWORK READY")
     print("=" * 80)
     print(f"🚑 AUTO-RECOVERY FEATURES:")
     print(f"  🔄 Automatic Print Spooler Management")
@@ -1218,14 +1400,31 @@ if __name__ == '__main__':
     print(f"  🗑️  Smart Print Queue Clearing")
     print(f"  ⚡ Connection Pool with Recovery")
     print("")
-    print(f"🛡️  SECURITY FEATURES:")
+    print(f"🌐 NETWORK PRINTER SUPPORT:")
+    print(f"  � Auto-Discovery of Network Printers")
+    print(f"  🔌 USB + Network Hybrid Mode")
+    print(f"  🔄 Automatic Failover (USB ↔ Network)")
+    print(f"  📡 Raw TCP/IP Printing (Port 9100)")
+    print("")
+    print(f"�🛡️  SECURITY FEATURES:")
     print(f"  🛡️  IP Whitelisting & Rate Limiting")
     print(f"  🚫 Suspicious Request Blocking") 
     print(f"  📊 Security Monitoring")
     print(f"  🔐 Enhanced Authentication")
     print("")
-    print(f"⚙️  CONFIGURATION:")
-    print(f"  Printer: {CONFIG.get('DEFAULT_PRINTER', 'Not detected')}")
+    
+    if not init_system():
+        print("❌ System initialization failed!")
+        sys.exit(1)
+    
+    print(f"⚙️  PRINTER CONFIGURATION:")
+    print(f"  USB Printer: {CONFIG.get('DEFAULT_PRINTER', 'Not detected')}")
+    if CONFIG.get('NETWORK_PRINTER_IP'):
+        print(f"  Network Printer: {CONFIG['NETWORK_PRINTER_IP']}:{CONFIG['NETWORK_PRINTER_PORT']}")
+        print(f"  Preferred Mode: {'🌐 Network' if CONFIG.get('PREFER_NETWORK') else '🔌 USB'}")
+    else:
+        print(f"  Network Printer: Not detected")
+        print(f"  Mode: 🔌 USB Only")
     print(f"  Auto-Recovery: {'✅ ENABLED' if CONFIG['AUTO_RECOVERY'] else '❌ DISABLED'}")
     print(f"  Health Check Interval: {CONFIG['PRINTER_CHECK_INTERVAL']}s")
     print(f"  Print Timeout: {CONFIG['PRINT_TIMEOUT']}s (normal), {CONFIG['FAST_PRINT_TIMEOUT']}s (fast)")
@@ -1244,14 +1443,11 @@ if __name__ == '__main__':
     print("  POST /font/config           - Update font settings")
     print("")
     print("🚑 AUTO-RECOVERY ACTIVE - Monitoring printer health...")
+    print("🌐 NETWORK PRINTER SUPPORT ACTIVE")
     print("🔄 CIRCUIT BREAKER PROTECTION ACTIVE")
     print("📦 BACKGROUND RETRY QUEUE ACTIVE")
     print("Press Ctrl+C to stop the server")
     print("=" * 80)
-
-    if not init_system():
-        print("❌ System initialization failed!")
-        sys.exit(1)
 
     try:
         app.run(host='0.0.0.0', port=8080, debug=False, threaded=True)
