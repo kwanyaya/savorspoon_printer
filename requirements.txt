@@ -1,8 +1,0 @@
-# HK Savor Spoon Windows Print Server - Dependencies
-# Install with: pip install -r requirements.txt
-
-flask
-flask-cors
-pywin32
-requests
-psutil
